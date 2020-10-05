@@ -1,0 +1,18 @@
+# node
+node_modules
+
+# os-specific
+.DS_Store
+
+# lerna and server logs
+*.log
+logs
+
+# builds
+dist
+
+# package manager
+.yarn
+
+# IDE
+.idea
