@@ -5,7 +5,8 @@
   "description": "ARM Finance monorepo",
   "main": "index.js",
   "workspaces": [
-    "ethereum"
+    "protocol",
+    "web"
   ],
   "scripts": {
     "start": "lerna run start --parallel",
@@ -23,8 +24,8 @@
     "client:build": "lerna run build:webpack",
     "server:dev": "lerna run server:dev --no-bail"
   },
-  "keywords": ["ARM Finance", "ARM"],
-  "author": "Andrea Lepidio",
+  "keywords": ["ARM Finance", "ARM", "DeFi", "Ethereum", "Web3"],
+  "author": "lepidotteri",
   "license": "Unlicense",
   "repository": {
     "type": "git",
