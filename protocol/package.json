@@ -1,5 +1,5 @@
 {
-  "name": "arm-finance-contracts",
+  "name": "@arm-finance/contracts",
   "version": "0.0.2",
   "description": "",
   "main": "index.js",

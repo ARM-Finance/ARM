@@ -1,5 +1,5 @@
 {
-  "name": "arm-finance-ui",
+  "name": "@arm-finance/mock-ui",
   "version": "1.0.0",
   "scripts": {
     "build": "rollup -c",

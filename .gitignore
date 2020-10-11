@@ -11,8 +11,5 @@ logs
 # builds
 dist
 
-# package manager
-.yarn
-
-# IDE
+# IntelliJ
 .idea
