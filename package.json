@@ -5,8 +5,7 @@
   "description": "ARM Finance monorepo",
   "main": "index.js",
   "workspaces": [
-    "protocol",
-    "web"
+    "protocol"
   ],
   "scripts": {
     "start": "lerna run start --parallel",

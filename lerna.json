@@ -1,7 +1,6 @@
 {
   "packages": [
-    "protocol",
-    "web"
+    "protocol"
   ],
   "npmClient": "yarn",
   "useWorkspaces": true
