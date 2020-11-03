@@ -1,5 +1,8 @@
-# ARM Finance
-ARM is a non-inflationary cryptocurrency that is designed to execute yield-generating strategies autonomously within, and to the benefit of, a completely decentralized governance.
+# ARM Vault
+ARM is a non-inflationary cryptocurrency that is designed to:
+1. execute yield-generating strategies autonomously within, and to the benefit of, a completely decentralized governance
+2. assure that buying pressure will always be generally more intense than selling pressure
+3. assure that TVL (Total Value Locked) can only ever increase
 
 ## Disclaimer
 Though we make our best efforts to provide thorough test coverage, most of the ARM Finance project code remains, as of yet, unaudited. 
