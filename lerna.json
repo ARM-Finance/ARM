@@ -1,7 +1,0 @@
-{
-  "packages": [
-    "protocol"
-  ],
-  "npmClient": "yarn",
-  "useWorkspaces": true
-}
