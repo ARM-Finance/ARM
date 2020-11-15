@@ -15,7 +15,7 @@ For general questions and discussion, please join the [ARM Finance Discord](http
 ###### Optional Install
 * [MythX](https://github.com/dmuhs/mythx-cli/)
 
-#⠧ Contract Overview
+## ⠧ Contract Overview
 ARM governance is made up of a series of Ethereum smart contracts governed by ARM token holders.
 The initial set of smart contracts form the base for controlling the project decisions 
 and configurations for the broader ARM Finance ecosystem protocols and applications.
@@ -26,7 +26,7 @@ channels and use their holdings to signal preferences on governance decisions.
 Additional contracts may be developed by the community itself in the future.
 
 
-#⠧ Smart Contracts
+## ⠧ Smart Contracts
 The initial set of smart contracts deployed for ARM:
 - ARM Token Contract
 - Supply Manager Contract
@@ -35,7 +35,7 @@ The initial set of smart contracts deployed for ARM:
 - Voting Power Implementation Contract
 
 
-##⠧ ARM Token
+## ⠧ ARM Token
 The ARM token is ERC-20 compliant, with add-ons to allow for off-chain signing (approvals + transfers),
 to learn more refer to:
  * [EIP-712](https://eips.ethereum.org/EIPS/eip-712)
@@ -53,7 +53,7 @@ Token metadata changes (name and symbol) must be initiated by a **metadataManage
 - Manager: `Team Multisig`
 
 
-##⠧ Supply Manager
+## ⠧ Supply Manager
 The Supply Manager contract controls the configurable values for the ARM token supply.
 - Admin: `Team Multisig`
 
@@ -67,7 +67,7 @@ The community may develop and deploy a replacement Supply Manager contract in th
 It is **not** possible for the Supply Manager contract to circumvent any hardcoded limits in the ARM token.
 
 
-##⠧ Token Vesting
+## ⠧ Token Vesting
 The Token Vesting contract allows early investors, team members and other Grant recipients to claim unlocked tokens according to individual vesting schedules. 
 Accounts with token balances in this contract receive Voting Power (see _Voting Power Proxy_, below).
 
@@ -83,7 +83,7 @@ Grants are initiated with the following parameters:
 Each account may have a maximum of one active Grant. The contract owner is the only account which may create new Grants.
 
 
-##⠧ Voting Power Prism (Proxy)
+## ⠧ Voting Power Prism (Proxy)
 The Voting Power Prism proxy contract keeps track of how many votes each ARM holder has.
 
 Voting Power increases when tokens are staked. 
@@ -96,7 +96,7 @@ This ensures that snapshots remain available even if the underlying logic to for
 Additional contracts may be developed by the community itself, to modify how Voting Power is tracked.
 
 
-##⠧ Voting Power Implementation Contract
+## ⠧ Voting Power Implementation Contract
 The Voting Power Implementation contract determines how votes are recorded for snapshots.
 
 Initially, the ARM token is used to calculate Voting Power. 
