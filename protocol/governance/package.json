@@ -11,6 +11,7 @@
     "hardhat": "hardhat node --no-deploy --show-accounts",
     "accounts": "hardhat accounts",
     "compile": "hardhat compile",
+    "build:sol": "hardhat compile && sol2uml contracts",
     "script": "sh -c 'npx ./scripts/${0}.js'",
     "script:latest": "sh -c 'npx hardhat run ./scripts/${0}.js'",
     "docs": "npx docify.ts",
@@ -62,6 +63,7 @@
     "@types/node": "^14.14.7",
     "chai": "^4.2.0",
     "hardhat-abi-exporter": "^2.0.6",
-    "hardhat-log-remover": "^2.0.0"
+    "hardhat-log-remover": "^2.0.0",
+    "sol2uml": "^1.1.18"
   }
 }
