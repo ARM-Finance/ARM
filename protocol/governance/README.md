@@ -1,6 +1,6 @@
-[![MythXBadge](https://badgen.net/https/api.mythx.io/v1/projects/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/badge/data?cache=300&icon=https://raw.githubusercontent.com/ConsenSys/mythx-github-badge/main/logo_white.svg)](https://docs.mythx.io/dashboard/github-badges)
+# ▁ ▃ ▄ ▅ ▆ ▇ ARM Governance ▇ ▆ ▅ ▄ ▃ ▁
 
-▁ ▃ ▄ ▅ ▆ ▇ ARM governance contracts ▇ ▆ ▅ ▄ ▃ ▁
+[![MythXBadge](https://badgen.net/https/api.mythx.io/v1/projects/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/badge/data?cache=300&icon=https://raw.githubusercontent.com/ConsenSys/mythx-github-badge/main/logo_white.svg)](https://docs.mythx.io/dashboard/github-badges)
 
 If you have feedback or run into any issues, feel free to open a new GitHub issue for the repository.
 For general questions and discussion, please join the [ARM Finance Discord](https://discord.gg/QzAXrxa) or [Telegram](https://t.me/joinchat/JfgdIRhOSw3F3qnnst8sfg) and stay tuned for announcements in the coming weeks.
