@@ -1,21 +1,27 @@
-[{
-    "recipient": "0x04EcEB77965BB426C54EE70d7fcEB2a9bDBdAfed",
-    "amount": "2000",
-    "class": "unlocked"
-}, {
-    "recipient": "0xFd90411B0c246743aE0000BB18c723A3BB909Dee",
-    "amount": "100",
-    "class": "vesting"
-}, {
-    "recipient": "0x2B7cFb1aA760d5050F5096d8fa123980Cb874EcC",
-    "amount": "5000",
-    "class": "team"
-}, {
-    "recipient": "0x99d0cc84a9b00bbB596463a415631886b02a9a70",
-    "amount": "900",
-    "class": "vesting"
-}, {
-    "recipient": "0x643C46aEeC9490D6C20517Af313F7fC3F34dE7c0",
-    "amount": "10000",
-    "class": "unlocked"
-}]
+[
+    {
+        "recipient": "0xFEEdc0dEf557E5C7c3D7227BDB945eD01505F865",
+        "amount": "2",
+        "class": "unlocked"
+    },
+    {
+        "recipient": "0xfeEDc0de21e887d8297E6e2d4076226768D39b94",
+        "amount": "10",
+        "class": "vesting"
+    },
+    {
+        "recipient": "0xfEedC0de4fAe8ec37A487368fe0Af68D15fb1BC6",
+        "amount": "500",
+        "class": "team"
+    },
+    {
+        "recipient": "0xfeeDc0de6cCdD14372955adde717B0A11B9B266b",
+        "amount": "900",
+        "class": "vesting"
+    },
+    {
+        "recipient": "0xFeEDc0DE5A42dd9f59Bb59307C54fa225ABFeCa1",
+        "amount": "1000",
+        "class": "unlocked"
+    }
+]

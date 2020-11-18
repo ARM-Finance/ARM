@@ -22,8 +22,6 @@
     "deploy": "hardhat deploy",
     "deploy:reset": "hardhat deploy --reset",
     "deploy:tag": "sh -c 'hardhat deploy --tags ${0}'",
-    "deploy:hardhat": "hardhat deploy --network hardhat",
-    "deploy:hardhat:tag": "sh -c 'hardhat deploy --network hardhat --tags ${0}'",
     "deploy:local": "hardhat deploy --network localhost",
     "deploy:local:tag": "sh -c 'hardhat deploy --network localhost --tags ${0}'",
     "deploy:rinkeby": "hardhat deploy --network rinkeby",

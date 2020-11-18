@@ -1,16 +1,24 @@
-import { distributeUnlockedTokens} from "../scripts/distributeUnlockedTokens";
-import { readGrantsFromFile} from "../scripts/readGrantsFromFile";
+import { HardhatRuntimeEnvironment } from 'hardhat/types';
+import { DeployFunction } from 'hardhat-deploy/types';
 
-export default async function ({ deployments }) {
+import { distributeUnlockedTokens } from "../scripts/distributeUnlockedTokens";
+import { readGrantsFromFile } from "../scripts/readGrantsFromFile";
+
+const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
+
+    const { deployments } = hre;
     const { log } = deployments;
     log(`9) Distribute Unlocked Tokens`);
     await distributeUnlockedTokens();
     log(`- Distributed unlocked tokens`);
 };
 
-export async function skip({ deployments }) {
+export const skip: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
+
+    const { deployments } = hre;
     const { log, read } = deployments;
     const grants = readGrantsFromFile();
+
     if (grants.length > 0) {
         const firstGranteeTokenBalance = await read("ARM", "balanceOf", grants[0].recipient);
         if (firstGranteeTokenBalance && firstGranteeTokenBalance.gt(0)) {
@@ -27,5 +35,6 @@ export async function skip({ deployments }) {
     }
 }
 
+export default func;
 export const tags = [ "9", "DistributeUnlockedTokens" ];
 export const dependencies = ["8"];

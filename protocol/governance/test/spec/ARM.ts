@@ -3,7 +3,6 @@ import { expect } from "chai";
 import { tokenFixture } from "../fixtures";
 import { ecsign } from "ethereumjs-util";
 
-
 const DEPLOYER_PRIVATE_KEY = process.env.DEPLOYER_PRIVATE_KEY;
 
 const DOMAIN_TYPEHASH = ethers.utils.keccak256(

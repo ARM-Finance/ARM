@@ -111,8 +111,8 @@ contract ARM {
 
     /**
      * @notice Construct a new ARM token
-     * @param _metadataManager The account with the ability to change token metadata
-     * @param _supplyManager The address with minting ability
+     * @param _metadataManager The address with the ability to alter the token metadata
+     * @param _supplyManager The address with the ability to mint more tokens
      * @param _firstSupplyChangeAllowed The timestamp after which the first supply change may occur
      */
     constructor(address _metadataManager, address _supplyManager, uint256 _firstSupplyChangeAllowed) {
