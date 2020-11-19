@@ -1,5 +1,5 @@
 {
-  "name": "@arm-finance/governance",
+  "name": "@arm/governance",
   "version": "1.0.0",
   "description": "Solidity smart contracts for the ARM governance token",
   "license": "MIT",

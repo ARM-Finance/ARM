@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.7.0;
-pragma experimental ABIEncoderV2;
+pragma abicoder v2;
 
 import "./Initializable.sol";
 import "./PrismProxy.sol";
 
 contract PrismProxyImplementation is Initializable {
+    
     /**
      * @notice Accept invitation to be implementation contract for proxy
      * @param prism Prism Proxy contract

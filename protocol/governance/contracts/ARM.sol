@@ -10,7 +10,7 @@
                                                                                                                       */
 // SPDX-License-Identifier: MPL-2.0
 pragma solidity ^0.7.0;
-pragma experimental ABIEncoderV2;
+pragma abicoder v2;
 
 import "./lib/SafeMath.sol";
 import "hardhat/console.sol";
