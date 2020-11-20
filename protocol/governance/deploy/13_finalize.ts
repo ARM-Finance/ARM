@@ -20,7 +20,7 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     const votingPower = new ethers.Contract(votingPowerPrism.address, votingPowerImplementation.abi, deployerSigner);
     let finalized = true;
   
-    log(`12) Finalize`);
+    log(`13) Finalize`);
     // Transfer remaining deployer ARM tokens to multisig
     log(`[CHECK]: that remaining deployer ARM tokens were sent to admin address: ${ admin }`);
     let deployerBalance = await read('ARM', 'balanceOf', deployer);
@@ -80,9 +80,17 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 
     // Check that Uniswap pool has been seeded with target liquidity
     log(`[CHECK]: that Uniswap pool has been created...`);
-    const { tokenLiquidity, ethLiquidity } = await getUniswapLiquidity();
+    const { poolAddress, tokenLiquidity, ethLiquidity } = await getUniswapLiquidity();
     if (tokenLiquidity.lt(TARGET_TOKEN_LIQUIDITY) || ethLiquidity.lt(TARGET_ETH_LIQUIDITY)) {
         log(`[ISSUE]: Liquidity has not been added to Uniswap pool`);
+        finalized = false;
+    }
+
+    // Check that liquidity provider has locked LP tokens
+    log(`[CHECK]: LP tokens are locked...`);
+    const lockedBalance = await read('Vault', 'getLockedTokenBalance', poolAddress, admin);
+    if (lockedBalance.eq(0)) {
+        log(`[ISSUE]: Liquidity tokens have not been locked`);
         finalized = false;
     }
 
@@ -94,5 +102,5 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 };
 
 export default func;
-export const tags = [ "12", "Finalize" ];
-export const dependencies = [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11" ];
+export const tags = [ "13", "Finalize" ];
+export const dependencies = [ "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" ];

@@ -14,7 +14,7 @@
     "build:sol": "hardhat compile && sol2uml contracts",
     "script": "sh -c 'npx ./scripts/${0}.js'",
     "script:latest": "sh -c 'npx hardhat run ./scripts/${0}.js'",
-    "docs": "npx docify.ts",
+    "docs": "echo 'TODO' && exit 0",
     "test": "hardhat test",
     "test:gas": "export REPORT_GAS=true && hardhat test",
     "test:spec": "hardhat test ./test/spec/*.spec.js",

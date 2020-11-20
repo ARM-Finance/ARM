@@ -1,14 +1,12 @@
-# ▁ ▃ ▄ ▅ ▆ ▇ ARM Governance ▇ ▆ ▅ ▄ ▃ ▁
-
-[![MythXBadge](https://badgen.net/https/api.mythx.io/v1/projects/XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX/badge/data?cache=300&icon=https://raw.githubusercontent.com/ConsenSys/mythx-github-badge/main/logo_white.svg)](https://docs.mythx.io/dashboard/github-badges)
+# ARM Governance
 
 If you have feedback or run into any issues, feel free to open a new GitHub issue for the repository.
 For general questions and discussion, please join the [ARM Finance Discord](https://discord.gg/QzAXrxa) or [Telegram](https://t.me/joinchat/JfgdIRhOSw3F3qnnst8sfg) and stay tuned for announcements in the coming weeks.
 
-## Prerequisites
+## ⠧ Prerequisites
 * Unix OS
 
-## Install
+## ⠧ Install
 * [Node.js 15](https://github.com/nvm-sh/nvm)
 * [NPM 7](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm)
 
@@ -52,14 +50,6 @@ The configurations are restricted to hardcoded limits with the following default
 
 Token metadata changes (name and symbol) must be initiated by a **metadataManager** address.
 - Manager: `Team Multisig`
-
-	
-## ⠧ Multisend
-Multisend is a simple contract that allows the sender to transfer multiple token balances in one transaction.
-
-
-## ⠧ Vault
-Vaults are used to lock up tokens without providing any voting power (unlike Vesting).
 
 
 ## ⠧ Supply Manager
@@ -110,3 +100,11 @@ The Voting Power Implementation contract determines how votes are recorded for s
 
 Initially, the ARM token is used to calculate Voting Power. 
 This contract may be redeployed to allow for extended functionality, such as delegation or accepting additional tokens.
+
+
+## ⠧ Multisend
+Multisend is a simple contract that allows the sender to transfer multiple token balances in one transaction.
+
+
+## ⠧ Vault
+Vaults are used to lock up tokens without providing any voting power (unlike Vesting).

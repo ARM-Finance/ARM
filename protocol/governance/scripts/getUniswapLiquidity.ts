@@ -99,11 +99,13 @@ export async function getUniswapLiquidity() {
         const uniPair = new ethers.Contract(UNI_PAIR_ADDRESS, UNI_PAIR_ABI, deployerSigner);
         const { reserve0, reserve1 } = await uniPair.getReserves();
         return {
+            poolAddress: UNI_PAIR_ADDRESS,
             tokenLiquidity: reserve0,
             ethLiquidity: reserve1
         };
     } else {
         return {
+            poolAddress: ZERO_ADDRESS,
             tokenLiquidity: ethers.BigNumber.from("0"),
             ethLiquidity: ethers.BigNumber.from("0")
         };
