@@ -7,9 +7,9 @@ export const tokenFixture = deployments.createFixture(async ({deployments, getNa
 
     const accounts = await ethers.getSigners();
     const deployer = accounts[0];
-    const admin = accounts[2];
-    const alice = accounts[3];
-    const bob = accounts[4];
+    const admin = accounts[3];
+    const alice = accounts[4];
+    const bob = accounts[5];
     const currentTime = Date.now();
     const SIX_MONTHS_IN_SECS = 6 * 30 * 24 * 60 * 60;
     const firstSupplyChangeAllowed = currentTime + SIX_MONTHS_IN_SECS;
@@ -33,12 +33,14 @@ export const governanceFixture = deployments.createFixture(async ({deployments, 
 
     const accounts = await ethers.getSigners();
     const deployer = accounts[0];
-    const admin = accounts[2];
-    const alice = accounts[3];
-    const bob = accounts[4];
+    const admin = accounts[3];
+    const alice = accounts[4];
+    const bob = accounts[5];
+
     const currentTime = Date.now();
     const SIX_MONTHS_IN_SECS = 6 * 30 * 24 * 60 * 60;
     const firstSupplyChangeAllowed = currentTime + SIX_MONTHS_IN_SECS;
+    
     const ARMFactory = await ethers.getContractFactory("ARM");
     const ARM = await ARMFactory.deploy(admin.address, deployer.address, firstSupplyChangeAllowed);
     const VestingFactory = await ethers.getContractFactory("Vesting");
@@ -46,7 +48,7 @@ export const governanceFixture = deployments.createFixture(async ({deployments, 
     const VotingPowerFactory = await ethers.getContractFactory("VotingPower");
     const VotingPowerImp = await VotingPowerFactory.deploy();
     const VotingPowerPrismFactory = await ethers.getContractFactory("VotingPowerPrism");
-    const VotingPowerPrism = await VotingPowerPrismFactory.deploy();
+    const VotingPowerPrism = await VotingPowerPrismFactory.deploy(deployer.address);
     const VotingPower = new ethers.Contract(VotingPowerPrism.address, VotingPowerImp.interface, deployer);
 
     return {

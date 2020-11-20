@@ -9,7 +9,7 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     const { deployments, getNamedAccounts } = hre;
     const { log, execute } = deployments;
     const { deployer, liquidityProvider } = await getNamedAccounts();
-    const TARGET_TOKEN_LIQUIDITY = process.env.TARGET_TOKEN_LIQUIDITY
+    const TARGET_TOKEN_LIQUIDITY = process.env.TARGET_TOKEN_LIQUIDITY;
 
     log(`10) Distribute Unlocked Tokens`);
     await distributeUnlockedTokens();

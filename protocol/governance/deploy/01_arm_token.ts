@@ -4,12 +4,11 @@ import { DeployFunction } from 'hardhat-deploy/types';
 const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 
   const { deployments, getNamedAccounts } = hre;
-  const { deploy, log } = deployments;
+  const { deploy, log, deterministic } = deployments;
   const { deployer, admin } = await getNamedAccounts();
 
-  const currentTime = Date.now();
-  const SIX_MONTHS_IN_SECS = 6 * 30 * 24 * 60 * 60;
-  const firstSupplyChangeAllowed = currentTime + SIX_MONTHS_IN_SECS;
+  // Unix timestamp = 01/29/2021 @ 12:00am (UTC)
+  const firstSupplyChangeAllowed = 1611878400;
 
   log(`1) ARM Token`);
   // Deploy ARM contract

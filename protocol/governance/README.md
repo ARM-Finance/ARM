@@ -33,7 +33,8 @@ The initial set of smart contracts deployed for ARM:
 - Token Vesting Contract
 - Voting Power Prism (Proxy)
 - Voting Power Implementation Contract
-
+- Multisend
+- Vault
 
 ## ⠧ ARM Token
 The ARM token is ERC-20 compliant, with add-ons to allow for off-chain signing (approvals + transfers),
@@ -51,6 +52,14 @@ The configurations are restricted to hardcoded limits with the following default
 
 Token metadata changes (name and symbol) must be initiated by a **metadataManager** address.
 - Manager: `Team Multisig`
+
+	
+## ⠧ Multisend
+Multisend is a simple contract that allows the sender to transfer multiple token balances in one transaction.
+
+
+## ⠧ Vault
+Vaults are used to lock up tokens without providing any voting power (unlike Vesting).
 
 
 ## ⠧ Supply Manager

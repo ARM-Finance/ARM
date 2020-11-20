@@ -5,6 +5,10 @@ pragma abicoder v2;
 import "./interfaces/IARM.sol";
 import "./lib/ReentrancyGuard.sol";
 
+/**
+ * @title Multisend
+ * @dev Allows the sender to perform batch transfers of ARCH tokens
+ */
 contract Multisend is ReentrancyGuard {
 
     /// @notice ARM token
@@ -20,6 +24,7 @@ contract Multisend is ReentrancyGuard {
 
     /**
      * @notice Batches multiple transfers
+     * @dev Must approve this contract for `totalAmount` before calling
      * @param totalAmount Total amount to be transferred
      * @param recipients Array of accounts to receive transfers
      * @param amounts Array of amounts to send to accounts via transfers

@@ -7,7 +7,7 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 
   const { deployments, getNamedAccounts } = hre;
   const { deploy, log } = deployments;
-  const { deployer } = await getNamedAccounts();
+  const { deployer, vpDeployer } = await getNamedAccounts();
 
   log(`5) Voting Power Prism`);
   // Check whether there are any issues with the voting power prism (selector clashes, etc.)
@@ -15,10 +15,11 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
   if (prismValid) {
     // Deploy VotingPowerPrism contract
     const deployResult = await deploy("VotingPowerPrism", {
-      from: deployer,
+      from: vpDeployer,
       contract: "VotingPowerPrism",
       // @ts-ignore
       gas: 4455555,
+      args: [deployer],
       skipIfAlreadyDeployed: true
     });
     

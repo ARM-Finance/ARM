@@ -37,9 +37,12 @@
     "verify": "hardhat etherscan-verify --api-key $ETHERSCAN_API_KEY",
     "flatten": "hardhat flatten",
     "flatten:out": "mkdir -p flattened && hardhat flatten > ./flattened/Contract.sol",
-    "mythx:quick": "mythx analyze -y --mode quick --wait ./contracts/*.sol",
-    "mythx:standard": "mythx analyze -y --mode standard --async ./contracts/*.sol",
-    "mythx:deep": "mythx analyze -y --mode deep --async ./contracts/*.sol"
+    "tenderly:export": "sh -c 'tenderly export ${0}'",
+    "tenderly:push": "sh -c 'npx hardhat tenderly:push ${0}=${1}'",
+    "tenderly:verify": "sh -c 'npx hardhat tenderly:verify ${0}=${1}'",
+    "mythx:quick": "mythx analyze --mode quick --wait ./contracts/*.sol",
+    "mythx:standard": "mythx analyze --mode standard --async ./contracts/*.sol",
+    "mythx:deep": "mythx analyze --mode deep --async ./contracts/*.sol"
   },
   "dependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.0",
