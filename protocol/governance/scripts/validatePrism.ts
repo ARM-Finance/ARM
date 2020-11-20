@@ -5,16 +5,16 @@ export async function validatePrism() {
     let votingPowerPrism = await ethers.getContractFactory("VotingPowerPrism");
     let votingPowerImplementation = await ethers.getContractFactory("VotingPower");
 
-    return noSelectorClashes(votingPowerPrism, votingPowerImplementation)
+    return noSelectorClashes(votingPowerPrism, votingPowerImplementation);
 }
 
 if (require.main === module) {
   validatePrism()
     .then((valid) => {
-        if(valid) {
+        if (valid) {
           console.log("No issues detected")
         }      
-        process.exit(0)
+        process.exit(0);
     })
     .catch(error => {
       console.error(error);

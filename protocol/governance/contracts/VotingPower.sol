@@ -33,7 +33,7 @@ contract VotingPower is PrismProxyImplementation, ReentrancyGuardUpgradeSafe {
     /**
      * @notice Initialize VotingPower contract
      * @dev Should be called via VotingPowerPrism before calling anything else
-     * @param _armToken address of ARCH token
+     * @param _armToken address of ARM token
      * @param _vestingContract address of Vesting contract
      */
     function initialize(
@@ -47,8 +47,8 @@ contract VotingPower is PrismProxyImplementation, ReentrancyGuardUpgradeSafe {
     }
 
     /**
-     * @notice Address of ARCH token
-     * @return Address of ARCH token
+     * @notice Address of ARM token
+     * @return Address of ARM token
      */
     function armToken() public view returns (address) {
         AppStorage storage app = VotingPowerStorage.appStorage();
@@ -65,7 +65,7 @@ contract VotingPower is PrismProxyImplementation, ReentrancyGuardUpgradeSafe {
     }
 
     /**
-     * @notice Stake ARCH tokens using offchain approvals to unlock voting power
+     * @notice Stake ARM tokens using offchain approvals to unlock voting power
      * @param amount The amount to stake
      * @param deadline The time at which to expire the signature
      * @param v The recovery byte of the signature
@@ -83,7 +83,7 @@ contract VotingPower is PrismProxyImplementation, ReentrancyGuardUpgradeSafe {
     }
 
     /**
-     * @notice Stake ARCH tokens to unlock voting power for `msg.sender`
+     * @notice Stake ARM tokens to unlock voting power for `msg.sender`
      * @param amount The amount to stake
      */
     function stake(uint256 amount) external nonReentrant {
@@ -96,7 +96,7 @@ contract VotingPower is PrismProxyImplementation, ReentrancyGuardUpgradeSafe {
     }
 
     /**
-     * @notice Count vesting ARCH tokens toward voting power for `account`
+     * @notice Count vesting ARM tokens toward voting power for `account`
      * @param account The recipient of voting power
      * @param amount The amount of voting power to add
      */
@@ -109,7 +109,7 @@ contract VotingPower is PrismProxyImplementation, ReentrancyGuardUpgradeSafe {
     }
 
     /**
-     * @notice Remove claimed vesting ARCH tokens from voting power for `account`
+     * @notice Remove claimed vesting ARM tokens from voting power for `account`
      * @param account The account with voting power
      * @param amount The amount of voting power to remove
      */
@@ -122,7 +122,7 @@ contract VotingPower is PrismProxyImplementation, ReentrancyGuardUpgradeSafe {
     }
 
     /**
-     * @notice Withdraw staked ARCH tokens, removing voting power for `msg.sender`
+     * @notice Withdraw staked ARM tokens, removing voting power for `msg.sender`
      * @param amount The amount to withdraw
      */
     function withdraw(uint256 amount) external nonReentrant {
@@ -130,14 +130,14 @@ contract VotingPower is PrismProxyImplementation, ReentrancyGuardUpgradeSafe {
         AppStorage storage app = VotingPowerStorage.appStorage();
         _withdraw(msg.sender, address(app.armToken), amount, amount);
     }
-
+    
     /**
-     * @notice Get total amount of ARCH tokens staked in contract by `staker`
-     * @param staker The user with staked ARCH
-     * @return total ARCH amount staked
+     * @notice Get total amount of ARM tokens staked in contract by `staker`
+     * @param staker The user with staked ARM
+     * @return total ARM amount staked
      */
-    function getARCHAmountStaked(address staker) public view returns (uint256) {
-        return getARCHStake(staker).amount;
+    function getStakedARMAmount(address staker) public view returns (uint256) {
+        return getARMStake(staker).amount;
     }
 
     /**
@@ -146,16 +146,16 @@ contract VotingPower is PrismProxyImplementation, ReentrancyGuardUpgradeSafe {
      * @param stakedToken The staked token
      * @return total amount staked
      */
-    function getAmountStaked(address staker, address stakedToken) public view returns (uint256) {
+    function getStakedARMAmountFor(address staker, address stakedToken) public view returns (uint256) {
         return getStake(staker, stakedToken).amount;
     }
-
+    
     /**
-     * @notice Get staked amount and voting power from ARCH tokens staked in contract by `staker`
-     * @param staker The user with staked ARCH
-     * @return total ARCH staked
+     * @notice Get staked amount and voting power from ARM tokens staked in contract by `staker`
+     * @param staker The user with staked ARM
+     * @return total ARM staked
      */
-    function getARCHStake(address staker) public view returns (Stake memory) {
+    function getARMStake(address staker) public view returns (Stake memory) {
         AppStorage storage app = VotingPowerStorage.appStorage();
         return getStake(staker, address(app.armToken));
     }

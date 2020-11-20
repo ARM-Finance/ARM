@@ -6,11 +6,15 @@ import { readGrantsFromFile } from "../scripts/readGrantsFromFile";
 
 const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 
-    const { deployments } = hre;
-    const { log } = deployments;
-    log(`9) Distribute Unlocked Tokens`);
+    const { deployments, getNamedAccounts } = hre;
+    const { log, execute } = deployments;
+    const { deployer, liquidityProvider } = await getNamedAccounts();
+    const TARGET_TOKEN_LIQUIDITY = process.env.TARGET_TOKEN_LIQUIDITY
+
+    log(`10) Distribute Unlocked Tokens`);
     await distributeUnlockedTokens();
-    log(`- Distributed unlocked tokens`);
+    log(`- Transferring ${ TARGET_TOKEN_LIQUIDITY } tokens to liquidity provider address`);
+    await execute('ARM', { from: deployer }, 'transfer', liquidityProvider, TARGET_TOKEN_LIQUIDITY);
 };
 
 export const skip: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
@@ -22,7 +26,7 @@ export const skip: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     if (grants.length > 0) {
         const firstGranteeTokenBalance = await read("ARM", "balanceOf", grants[0].recipient);
         if (firstGranteeTokenBalance && firstGranteeTokenBalance.gt(0)) {
-            log(`9) Distribute Unlocked Tokens`);
+            log(`10) Distribute Unlocked Tokens`);
             log(`- Skipping step, unlocked tokens already distributed`);
             return true;
         } else {
@@ -36,5 +40,5 @@ export const skip: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 }
 
 export default func;
-export const tags = [ "9", "DistributeUnlockedTokens" ];
-export const dependencies = ["8"];
+export const tags = [ "10", "DistributeUnlockedTokens" ];
+export const dependencies = ["9"];

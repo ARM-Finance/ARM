@@ -29,9 +29,9 @@ interface IVotingPower {
     function withdraw(uint256 amount) external;
     function addVotingPowerForVestingTokens(address account, uint256 amount) external;
     function removeVotingPowerForClaimedTokens(address account, uint256 amount) external;
-    function getARCHAmountStaked(address staker) external view returns (uint256);
-    function getAmountStaked(address staker, address stakedToken) external view returns (uint256);
-    function getARCHStake(address staker) external view returns (Stake memory);
+    function getStakedARMAmount(address staker) external view returns (uint256);
+    function getStakedARMAmountFor(address staker, address stakedToken) external view returns (uint256);
+    function getARMStake(address staker) external view returns (Stake memory);
     function getStake(address staker, address stakedToken) external view returns (Stake memory);
     function balanceOf(address account) external view returns (uint256);
     function balanceOfAt(address account, uint256 blockNumber) external view returns (uint256);

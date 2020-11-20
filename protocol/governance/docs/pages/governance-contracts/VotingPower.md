@@ -26,11 +26,11 @@ This function is called once and is used by this contract to accept its role as 
 
 - [`withdraw(uint256 amount)`](#VotingPower-withdraw-uint256-)
 
-- [`getARCHAmountStaked(address staker)`](#VotingPower-getARCHAmountStaked-address-)
+- [`getStakedARMAmount(address staker)`](#VotingPower-getStakedARMAmount-address-)
 
-- [`getAmountStaked(address staker, address stakedToken)`](#VotingPower-getAmountStaked-address-address-)
+- [`getStakedARMAmountFor(address staker, address stakedToken)`](#VotingPower-getStakedARMAmountFor-address-address-)
 
-- [`getARCHStake(address staker)`](#VotingPower-getARCHStake-address-)
+- [`getARMStake(address staker)`](#VotingPower-getARMStake-address-)
 
 - [`getStake(address staker, address stakedToken)`](#VotingPower-getStake-address-address-)
 
@@ -126,7 +126,7 @@ Withdraw staked ARM tokens, removing voting power for `msg.sender`
 
 - `amount`: The amount to withdraw
 
-# Function `getARCHAmountStaked(address staker) → uint256` {#VotingPower-getARCHAmountStaked-address-}
+# Function `getStakedARMAmount(address staker) → uint256` {#VotingPower-getStakedARMAmount-address-}
 
 Get total amount of ARM tokens staked in contract by `staker`
 
@@ -138,7 +138,7 @@ Get total amount of ARM tokens staked in contract by `staker`
 
 - total ARM amount staked
 
-# Function `getAmountStaked(address staker, address stakedToken) → uint256` {#VotingPower-getAmountStaked-address-address-}
+# Function `getStakedARMAmountFor(address staker, address stakedToken) → uint256` {#VotingPower-getStakedARMAmountFor-address-address-}
 
 Get total amount of tokens staked in contract by `staker`
 
@@ -152,7 +152,7 @@ Get total amount of tokens staked in contract by `staker`
 
 - total amount staked
 
-# Function `getARCHStake(address staker) → struct Stake` {#VotingPower-getARCHStake-address-}
+# Function `getARMStake(address staker) → struct Stake` {#VotingPower-getARMStake-address-}
 
 Get staked amount and voting power from ARM tokens staked in contract by `staker`
 

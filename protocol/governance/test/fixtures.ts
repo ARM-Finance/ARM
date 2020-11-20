@@ -13,11 +13,14 @@ export const tokenFixture = deployments.createFixture(async ({deployments, getNa
     const currentTime = Date.now();
     const SIX_MONTHS_IN_SECS = 6 * 30 * 24 * 60 * 60;
     const firstSupplyChangeAllowed = currentTime + SIX_MONTHS_IN_SECS;
-    const ArchTokenFactory = await ethers.getContractFactory("ARM");
-    const ARM = await ArchTokenFactory.deploy(admin.address, deployer.address, firstSupplyChangeAllowed);
+    const ARMFactory = await ethers.getContractFactory("ARM");
+    const ARM = await ARMFactory.deploy(admin.address, deployer.address, firstSupplyChangeAllowed);
+    const MultisendFactory = await ethers.getContractFactory("Multisend");
+    const Multisend = await MultisendFactory.deploy(ARM.address);
 
     return {
         armToken: ARM,
+        multisend: Multisend,
         deployer: deployer,
         admin: admin,
         alice: alice,
@@ -36,8 +39,8 @@ export const governanceFixture = deployments.createFixture(async ({deployments, 
     const currentTime = Date.now();
     const SIX_MONTHS_IN_SECS = 6 * 30 * 24 * 60 * 60;
     const firstSupplyChangeAllowed = currentTime + SIX_MONTHS_IN_SECS;
-    const ARMTokenFactory = await ethers.getContractFactory("ARM");
-    const ARM = await ARMTokenFactory.deploy(admin.address, deployer.address, firstSupplyChangeAllowed);
+    const ARMFactory = await ethers.getContractFactory("ARM");
+    const ARM = await ARMFactory.deploy(admin.address, deployer.address, firstSupplyChangeAllowed);
     const VestingFactory = await ethers.getContractFactory("Vesting");
     const Vesting = await VestingFactory.deploy(ARM.address);
     const VotingPowerFactory = await ethers.getContractFactory("VotingPower");

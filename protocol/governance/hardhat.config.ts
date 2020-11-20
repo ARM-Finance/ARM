@@ -39,7 +39,7 @@ let hardhatConfig = {
   hardfork: "muirGlacier",
   live: false,
   saveDeployments: true,
-  tags: [ "test" ],
+  tags: ["test"],
   accounts,
   forking: {
     enabled: true,
@@ -66,7 +66,7 @@ let localhostConfig = {
   url: 'http://localhost:8545',
   live: false,
   saveDeployments: true,
-  tags: [ "local" ]
+  tags: ["local"]
 };
 
 let rinkebyConfig = {

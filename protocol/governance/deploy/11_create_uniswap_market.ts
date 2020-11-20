@@ -99,7 +99,7 @@ const WETH_ABI = [
 const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 
     const { deployments, getNamedAccounts, ethers } = hre;
-    const { execute, log } = deployments;
+    const { execute, read, log } = deployments;
     const namedAccounts = await getNamedAccounts();
     const { deployer, liquidityProvider, admin } = namedAccounts;
                                   // @ts-ignore
@@ -111,7 +111,7 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 
     const uniRouter = new ethers.Contract(UNI_ROUTER_ADDRESS, UNI_ROUTER_ABI, lpSigner);
 
-    log(`10) Create Uniswap Market`);
+    log(`11) Create Uniswap Market`);
     // Approve Uniswap router to move `TARGET_TOKEN_LIQUIDITY` tokens
     await execute('ARM', { from: liquidityProvider }, 'approve', UNI_ROUTER_ADDRESS, TARGET_TOKEN_LIQUIDITY);
 
@@ -119,30 +119,39 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     const weth = new ethers.Contract(WETH_ADDRESS, WETH_ABI, lpSigner);
     await weth.approve(UNI_ROUTER_ADDRESS, TARGET_ETH_LIQUIDITY);
 
-    // Transfer `TARGET_TOKEN_LIQUIDITY` tokens to liquidity provider address
-    await execute('ARM', { from: deployer }, 'transfer', liquidityProvider, TARGET_TOKEN_LIQUIDITY);
-
     // Deadline for adding liquidity = now + 20 minutes
     const deadline = Date.now() + 1200;
 
-    // Create Uniswap market + provide initial liquidity
-    await uniRouter.addLiquidityETH(
-        armToken.address,
-        TARGET_TOKEN_LIQUIDITY,
-        TARGET_TOKEN_LIQUIDITY,
-        TARGET_ETH_LIQUIDITY,
-        admin,
-        deadline,
-        { value: TARGET_ETH_LIQUIDITY, gasLimit: 6000000 });
-    const { tokenLiquidity, ethLiquidity } = await getUniswapLiquidity();
+   // Create Uniswap market + provide initial liquidity
+   const result = await uniRouter.addLiquidityETH(
+       armToken.address, 
+       TARGET_TOKEN_LIQUIDITY, 
+       TARGET_TOKEN_LIQUIDITY, 
+       TARGET_ETH_LIQUIDITY, 
+       admin, 
+       deadline, 
+       { value: TARGET_ETH_LIQUIDITY, gasLimit: 6000000 });
 
-    if (tokenLiquidity.gte(TARGET_TOKEN_LIQUIDITY) && ethLiquidity.gte(TARGET_ETH_LIQUIDITY)) {
-        log(`- Created Uniswap market. 
-        Token liquidity: ${ tokenLiquidity.toString() }, 
-        ETH liquidity: ${ ethLiquidity.toString() }`);
-    } else {
-        log(`- Error creating Uniswap market`);
-    }
+   if (result.hash) {
+       const receipt = await ethers.provider.waitForTransaction(result.hash);
+       if (receipt.status === 0x1) {
+           const { tokenLiquidity, ethLiquidity } = await getUniswapLiquidity();
+           log(`- Created Uniswap market. Token liquidity: ${ tokenLiquidity.toString() }, ETH liquidity: ${ ethLiquidity.toString() }`);
+       } else {
+           log(`- Error creating Uniswap market. Tx:`);
+           log(receipt);
+       }
+   } else {
+       log(`- Error creating Uniswap market. Tx:`);
+       log(result);
+   }
+
+   // Transfer remaining deployer balance to admin
+   log(`- Transferring remaining deployer ARM tokens to admin address: ${ admin }`);
+   let deployerBalance = await read('ARM', 'balanceOf', deployer);
+   if (deployerBalance > 0) {
+     await execute('ARM', {from: deployer}, 'transfer', admin, deployerBalance); // it shouldn't happen as we provided all minted tokens to Uniswap already (10k)
+   }
 };
 
 export const skip: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
@@ -154,21 +163,21 @@ export const skip: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 
     const TARGET_ETH_LIQUIDITY = process.env.TARGET_ETH_LIQUIDITY;
     const TARGET_TOKEN_LIQUIDITY = process.env.TARGET_TOKEN_LIQUIDITY;
-    const { tokenLiquidity, ethLiquidity } = await getUniswapLiquidity();
+    const { tokenLiquidity } = await getUniswapLiquidity();
 
     const lpETHBalance = await ethers.provider.getBalance(liquidityProvider);
-    const deployerTokenBalance = await read('ARM', 'balanceOf', deployer);
+    const lpTokenBalance = await read('ARM', 'balanceOf', liquidityProvider);
     
     if (tokenLiquidity.gte(TARGET_TOKEN_LIQUIDITY)) {
-        log(`10) Create Uniswap Market`);
+        log(`11) Create Uniswap Market`);
         log(`- Skipping step, Uniswap liquidity already provided`);
         return true;
-    } else if (deployerTokenBalance.lt(TARGET_TOKEN_LIQUIDITY)) {
-        log(`10) Create Uniswap Market`);
+    } else if (lpTokenBalance.lt(TARGET_TOKEN_LIQUIDITY)) {
+        log(`11) Create Uniswap Market`);
         log(`- Skipping step, deployer account does not have enough tokens`);
         return true;
     } else if (lpETHBalance.lt(TARGET_ETH_LIQUIDITY)) {
-        log(`10) Create Uniswap Market`);
+        log(`11) Create Uniswap Market`);
         log(`- Skipping step, liquidity provider account does not have enough ETH`);
         return true;
     } else {
@@ -177,5 +186,5 @@ export const skip: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 }
 
 export default func;
-export const tags = [ "10", "UniswapMarket" ];
-export const dependencies = ["9"];
+export const tags = [ "11", "UniswapMarket" ];
+export const dependencies = ["10"];

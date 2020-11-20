@@ -5,57 +5,63 @@ ERC-20 with supply controls + add-ons to allow for offchain signing (see EIP-712
 
 # Functions:
 
-- [`constructor(address _metadataManager, address _supplyManager, uint256 _firstSupplyChangeAllowed)`](#_ARM-constructor-address-address-uint256-)
+- [`constructor(address _metadataManager, address _supplyManager, uint256 _firstSupplyChangeAllowed)`](#ARM-constructor-address-address-uint256-)
 
-- [`setSupplyManager(address newSupplyManager)`](#_ARM-setSupplyManager-address-)
+- [`setSupplyManager(address newSupplyManager)`](#ARM-setSupplyManager-address-)
 
-- [`setMetadataManager(address newMetadataManager)`](#_ARM-setMetadataManager-address-)
+- [`setMetadataManager(address newMetadataManager)`](#ARM-setMetadataManager-address-)
 
-- [`mint(address dst, uint256 amount)`](#_ARM-mint-address-uint256-)
+- [`mint(address dst, uint256 amount)`](#ARM-mint-address-uint256-)
 
-- [`burn(address src, uint256 amount)`](#_ARM-burn-address-uint256-)
+- [`burn(address src, uint256 amount)`](#ARM-burn-address-uint256-)
 
-- [`setMintCap(uint16 newCap)`](#_ARM-setMintCap-uint16-)
+- [`setMintCap(uint16 newCap)`](#ARM-setMintCap-uint16-)
 
-- [`setSupplyChangeWaitingPeriod(uint32 period)`](#_ARM-setSupplyChangeWaitingPeriod-uint32-)
+- [`setSupplyChangeWaitingPeriod(uint32 period)`](#ARM-setSupplyChangeWaitingPeriod-uint32-)
 
-- [`updateTokenMetadata(string tokenName, string tokenSymbol)`](#_ARM-updateTokenMetadata-string-string-)
+- [`updateTokenMetadata(string tokenName, string tokenSymbol)`](#ARM-updateTokenMetadata-string-string-)
 
-- [`allowance(address account, address spender)`](#_ARM-allowance-address-address-)
+- [`allowance(address account, address spender)`](#ARM-allowance-address-address-)
 
-- [`approve(address spender, uint256 amount)`](#_ARM-approve-address-uint256-)
+- [`approve(address spender, uint256 amount)`](#ARM-approve-address-uint256-)
 
-- [`permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s)`](#_ARM-permit-address-address-uint256-uint256-uint8-bytes32-bytes32-)
+- [`increaseAllowance(address spender, uint256 addedValue)`](#ARM-increaseAllowance-address-uint256-)
 
-- [`balanceOf(address account)`](#_ARM-balanceOf-address-)
+- [`decreaseAllowance(address spender, uint256 subtractedValue)`](#ARM-decreaseAllowance-address-uint256-)
 
-- [`transfer(address dst, uint256 amount)`](#_ARM-transfer-address-uint256-)
+- [`permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s)`](#ARM-permit-address-address-uint256-uint256-uint8-bytes32-bytes32-)
 
-- [`transferFrom(address src, address dst, uint256 amount)`](#_ARM-transferFrom-address-address-uint256-)
+- [`balanceOf(address account)`](#ARM-balanceOf-address-)
 
-- [`transferWithAuthorization(address from, address to, uint256 value, uint256 validAfter, uint256 validBefore, bytes32 nonce, uint8 v, bytes32 r, bytes32 s)`](#_ARM-transferWithAuthorization-address-address-uint256-uint256-uint256-bytes32-uint8-bytes32-bytes32-)
+- [`transfer(address dst, uint256 amount)`](#ARM-transfer-address-uint256-)
 
-- [`getDomainSeparator()`](#_ARM-getDomainSeparator--)
+- [`transferFrom(address src, address dst, uint256 amount)`](#ARM-transferFrom-address-address-uint256-)
+
+- [`transferWithAuthorization(address from, address to, uint256 value, uint256 validAfter, uint256 validBefore, bytes32 nonce, uint8 v, bytes32 r, bytes32 s)`](#ARM-transferWithAuthorization-address-address-uint256-uint256-uint256-bytes32-uint8-bytes32-bytes32-)
+
+- [`receiveWithAuthorization(address from, address to, uint256 value, uint256 validAfter, uint256 validBefore, bytes32 nonce, uint8 v, bytes32 r, bytes32 s)`](#ARM-receiveWithAuthorization-address-address-uint256-uint256-uint256-bytes32-uint8-bytes32-bytes32-)
+
+- [`getDomainSeparator()`](#ARM-getDomainSeparator--)
 
 # Events:
 
-- [`MintCapChanged(uint16 oldMintCap, uint16 newMintCap)`](#_ARM-MintCapChanged-uint16-uint16-)
+- [`MintCapChanged(uint16 oldMintCap, uint16 newMintCap)`](#ARM-MintCapChanged-uint16-uint16-)
 
-- [`SupplyManagerChanged(address oldManager, address newManager)`](#_ARM-SupplyManagerChanged-address-address-)
+- [`SupplyManagerChanged(address oldManager, address newManager)`](#ARM-SupplyManagerChanged-address-address-)
 
-- [`SupplyChangeWaitingPeriodChanged(uint32 oldWaitingPeriod, uint32 newWaitingPeriod)`](#_ARM-SupplyChangeWaitingPeriodChanged-uint32-uint32-)
+- [`SupplyChangeWaitingPeriodChanged(uint32 oldWaitingPeriod, uint32 newWaitingPeriod)`](#ARM-SupplyChangeWaitingPeriodChanged-uint32-uint32-)
 
-- [`MetadataManagerChanged(address oldManager, address newManager)`](#_ARM-MetadataManagerChanged-address-address-)
+- [`MetadataManagerChanged(address oldManager, address newManager)`](#ARM-MetadataManagerChanged-address-address-)
 
-- [`TokenMetaUpdated(string name, string symbol)`](#_ARM-TokenMetaUpdated-string-string-)
+- [`TokenMetaUpdated(string name, string symbol)`](#ARM-TokenMetaUpdated-string-string-)
 
-- [`Transfer(address from, address to, uint256 value)`](#_ARM-Transfer-address-address-uint256-)
+- [`Transfer(address from, address to, uint256 value)`](#ARM-Transfer-address-address-uint256-)
 
-- [`Approval(address owner, address spender, uint256 value)`](#_ARM-Approval-address-address-uint256-)
+- [`Approval(address owner, address spender, uint256 value)`](#ARM-Approval-address-address-uint256-)
 
-- [`AuthorizationUsed(address authorizer, bytes32 nonce)`](#_ARM-AuthorizationUsed-address-bytes32-)
+- [`AuthorizationUsed(address authorizer, bytes32 nonce)`](#ARM-AuthorizationUsed-address-bytes32-)
 
-# Function `constructor(address _metadataManager, address _supplyManager, uint256 _firstSupplyChangeAllowed)` {#_ARM-constructor-address-address-uint256-}
+# Function `constructor(address _metadataManager, address _supplyManager, uint256 _firstSupplyChangeAllowed)` {#ARM-constructor-address-address-uint256-}
 
 Construct a new ARM token
 
@@ -67,7 +73,7 @@ Construct a new ARM token
 
 - `_firstSupplyChangeAllowed`: The timestamp after which the first supply change may occur
 
-# Function `setSupplyManager(address newSupplyManager) → bool` {#_ARM-setSupplyManager-address-}
+# Function `setSupplyManager(address newSupplyManager) → bool` {#ARM-setSupplyManager-address-}
 
 Change the supplyManager address
 
@@ -79,7 +85,7 @@ Change the supplyManager address
 
 - true if successful
 
-# Function `setMetadataManager(address newMetadataManager) → bool` {#_ARM-setMetadataManager-address-}
+# Function `setMetadataManager(address newMetadataManager) → bool` {#ARM-setMetadataManager-address-}
 
 Change the metadataManager address
 
@@ -91,7 +97,7 @@ Change the metadataManager address
 
 - true if successful
 
-# Function `mint(address dst, uint256 amount) → bool` {#_ARM-mint-address-uint256-}
+# Function `mint(address dst, uint256 amount) → bool` {#ARM-mint-address-uint256-}
 
 Mint new tokens
 
@@ -105,7 +111,7 @@ Mint new tokens
 
 - Boolean indicating success of mint
 
-# Function `burn(address src, uint256 amount) → bool` {#_ARM-burn-address-uint256-}
+# Function `burn(address src, uint256 amount) → bool` {#ARM-burn-address-uint256-}
 
 Burn tokens
 
@@ -119,7 +125,7 @@ Burn tokens
 
 - Boolean indicating success of burn
 
-# Function `setMintCap(uint16 newCap) → bool` {#_ARM-setMintCap-uint16-}
+# Function `setMintCap(uint16 newCap) → bool` {#ARM-setMintCap-uint16-}
 
 Set the maximum amount of tokens that can be minted at once
 
@@ -131,7 +137,7 @@ Set the maximum amount of tokens that can be minted at once
 
 - true if successful
 
-# Function `setSupplyChangeWaitingPeriod(uint32 period) → bool` {#_ARM-setSupplyChangeWaitingPeriod-uint32-}
+# Function `setSupplyChangeWaitingPeriod(uint32 period) → bool` {#ARM-setSupplyChangeWaitingPeriod-uint32-}
 
 Set the minimum time between supply changes
 
@@ -143,7 +149,7 @@ Set the minimum time between supply changes
 
 - true if succssful
 
-# Function `updateTokenMetadata(string tokenName, string tokenSymbol) → bool` {#_ARM-updateTokenMetadata-string-string-}
+# Function `updateTokenMetadata(string tokenName, string tokenSymbol) → bool` {#ARM-updateTokenMetadata-string-string-}
 
 Update the token name and symbol
 
@@ -157,7 +163,7 @@ Update the token name and symbol
 
 - true if successful
 
-# Function `allowance(address account, address spender) → uint256` {#_ARM-allowance-address-address-}
+# Function `allowance(address account, address spender) → uint256` {#ARM-allowance-address-address-}
 
 Get the number of tokens `spender` is approved to spend on behalf of `account`
 
@@ -171,13 +177,15 @@ Get the number of tokens `spender` is approved to spend on behalf of `account`
 
 - The number of tokens approved
 
-# Function `approve(address spender, uint256 amount) → bool` {#_ARM-approve-address-uint256-}
+# Function `approve(address spender, uint256 amount) → bool` {#ARM-approve-address-uint256-}
 
 Approve `spender` to transfer up to `amount` from `src`
 
 This will overwrite the approval amount for `spender`
 
 and is subject to issues noted [here](https://eips.ethereum.org/EIPS/eip-20#approve)
+
+It is recommended to use increaseAllowance and decreaseAllowance instead
 
 ## Parameters:
 
@@ -189,7 +197,35 @@ and is subject to issues noted [here](https://eips.ethereum.org/EIPS/eip-20#appr
 
 - Whether or not the approval succeeded
 
-# Function `permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s)` {#_ARM-permit-address-address-uint256-uint256-uint8-bytes32-bytes32-}
+# Function `increaseAllowance(address spender, uint256 addedValue) → bool` {#ArchToken-increaseAllowance-address-uint256-}
+
+Increase the allowance by a given amount
+
+## Parameters:
+
+- `spender`: Spender's address
+
+- `addedValue`: Amount of increase in allowance
+
+## Return Values:
+
+- True if successful
+
+# Function `decreaseAllowance(address spender, uint256 subtractedValue) → bool` {#ArchToken-decreaseAllowance-address-uint256-}
+
+Decrease the allowance by a given amount
+
+## Parameters:
+
+- `spender`: Spender's address
+
+- `subtractedValue`: Amount of decrease in allowance
+
+## Return Values:
+
+- True if successful
+
+# Function `permit(address owner, address spender, uint256 value, uint256 deadline, uint8 v, bytes32 r, bytes32 s)` {#ARM-permit-address-address-uint256-uint256-uint8-bytes32-bytes32-}
 
 Triggers an approval from owner to spender
 
@@ -209,7 +245,7 @@ Triggers an approval from owner to spender
 
 - `s`: Half of the ECDSA signature pair
 
-# Function `balanceOf(address account) → uint256` {#_ARM-balanceOf-address-}
+# Function `balanceOf(address account) → uint256` {#ARM-balanceOf-address-}
 
 Get the number of tokens held by the `account`
 
@@ -221,7 +257,7 @@ Get the number of tokens held by the `account`
 
 - The number of tokens held
 
-# Function `transfer(address dst, uint256 amount) → bool` {#_ARM-transfer-address-uint256-}
+# Function `transfer(address dst, uint256 amount) → bool` {#ARM-transfer-address-uint256-}
 
 Transfer `amount` tokens from `msg.sender` to `dst`
 
@@ -235,7 +271,7 @@ Transfer `amount` tokens from `msg.sender` to `dst`
 
 - Whether or not the transfer succeeded
 
-# Function `transferFrom(address src, address dst, uint256 amount) → bool` {#_ARM-transferFrom-address-address-uint256-}
+# Function `transferFrom(address src, address dst, uint256 amount) → bool` {#ARM-transferFrom-address-address-uint256-}
 
 Transfer `amount` tokens from `src` to `dst`
 
@@ -251,7 +287,7 @@ Transfer `amount` tokens from `src` to `dst`
 
 - Whether or not the transfer succeeded
 
-# Function `transferWithAuthorization(address from, address to, uint256 value, uint256 validAfter, uint256 validBefore, bytes32 nonce, uint8 v, bytes32 r, bytes32 s)` {#_ARM-transferWithAuthorization-address-address-uint256-uint256-uint256-bytes32-uint8-bytes32-bytes32-}
+# Function `transferWithAuthorization(address from, address to, uint256 value, uint256 validAfter, uint256 validBefore, bytes32 nonce, uint8 v, bytes32 r, bytes32 s)` {#ARM-transferWithAuthorization-address-address-uint256-uint256-uint256-bytes32-uint8-bytes32-bytes32-}
 
 Transfer tokens with a signed authorization
 
@@ -275,38 +311,66 @@ Transfer tokens with a signed authorization
 
 - `s`: Half of the ECDSA signature pair
 
-# Function `getDomainSeparator() → bytes32` {#_ARM-getDomainSeparator--}
+# Function `receiveWithAuthorization(address from, address to, uint256 value, uint256 validAfter, uint256 validBefore, bytes32 nonce, uint8 v, bytes32 r, bytes32 s)` {#ArchToken-receiveWithAuthorization-address-address-uint256-uint256-uint256-bytes32-uint8-bytes32-bytes32-}
+
+Receive a transfer with a signed authorization from the payer
+
+This has an additional check to ensure that the payee's address matches
+
+the caller of this function to prevent front-running attacks.
+
+## Parameters:
+
+- `from`: Payer's address (Authorizer)
+
+- `to`: Payee's address
+
+- `value`: Amount to be transferred
+
+- `validAfter`: The time after which this is valid (unix time)
+
+- `validBefore`: The time before which this is valid (unix time)
+
+- `nonce`: Unique nonce
+
+- `v`: v of the signature
+
+- `r`: r of the signature
+
+- `s`: s of the signature
+
+# Function `getDomainSeparator() → bytes32` {#ARM-getDomainSeparator--}
 
 EIP-712 Domain separator
 
-# Event `MintCapChanged(uint16 oldMintCap, uint16 newMintCap)` {#_ARM-MintCapChanged-uint16-uint16-}
+# Event `MintCapChanged(uint16 oldMintCap, uint16 newMintCap)` {#ARM-MintCapChanged-uint16-uint16-}
 
 An event that's emitted when the mintCap is changed
 
-# Event `SupplyManagerChanged(address oldManager, address newManager)` {#_ARM-SupplyManagerChanged-address-address-}
+# Event `SupplyManagerChanged(address oldManager, address newManager)` {#ARM-SupplyManagerChanged-address-address-}
 
 An event that's emitted when the supplyManager address is changed
 
-# Event `SupplyChangeWaitingPeriodChanged(uint32 oldWaitingPeriod, uint32 newWaitingPeriod)` {#_ARM-SupplyChangeWaitingPeriodChanged-uint32-uint32-}
+# Event `SupplyChangeWaitingPeriodChanged(uint32 oldWaitingPeriod, uint32 newWaitingPeriod)` {#ARM-SupplyChangeWaitingPeriodChanged-uint32-uint32-}
 
 An event that's emitted when the supplyChangeWaitingPeriod is changed
 
-# Event `MetadataManagerChanged(address oldManager, address newManager)` {#_ARM-MetadataManagerChanged-address-address-}
+# Event `MetadataManagerChanged(address oldManager, address newManager)` {#ARM-MetadataManagerChanged-address-address-}
 
 An event that's emitted when the metadataManager address is changed
 
-# Event `TokenMetaUpdated(string name, string symbol)` {#_ARM-TokenMetaUpdated-string-string-}
+# Event `TokenMetaUpdated(string name, string symbol)` {#ARM-TokenMetaUpdated-string-string-}
 
 An event that's emitted when the token name and symbol are changed
 
-# Event `Transfer(address from, address to, uint256 value)` {#_ARM-Transfer-address-address-uint256-}
+# Event `Transfer(address from, address to, uint256 value)` {#ARM-Transfer-address-address-uint256-}
 
 The standard EIP-20 transfer event
 
-# Event `Approval(address owner, address spender, uint256 value)` {#_ARM-Approval-address-address-uint256-}
+# Event `Approval(address owner, address spender, uint256 value)` {#ARM-Approval-address-address-uint256-}
 
 The standard EIP-20 approval event
 
-# Event `AuthorizationUsed(address authorizer, bytes32 nonce)` {#_ARM-AuthorizationUsed-address-bytes32-}
+# Event `AuthorizationUsed(address authorizer, bytes32 nonce)` {#ARM-AuthorizationUsed-address-bytes32-}
 
 An event that's emitted whenever an authorized transfer occurs
