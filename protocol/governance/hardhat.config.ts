@@ -30,12 +30,12 @@ const CMC_API_KEY = process.env.CMC_API_KEY;
 const ARM = '0xa37580e882586bc834912f332052c1dbb19bfb5252e4a6209a8c5514ca161f10';
 const CORE = '0xb169e3555400a60ddc713482b313731d7df8f8baeb0bbdeb2132a776d3d90d61';
 const accounts = [
-  { privateKey: DEPLOYER_PRIVATE_KEY,           balance: "100000000000000000000" },
-  { privateKey: LIQUIDITY_PROVIDER_PRIVATE_KEY, balance: "100000000000000000000" },
-  { privateKey: VP_DEPLOYER_PRIVATE_KEY,        balance: "100000000000000000000" },
-  { privateKey: ADMIN_PRIVATE_KEY,              balance: "100000000000000000000" },
-  { privateKey: ARM,                            balance: "100000000000000000000" },
-  { privateKey: CORE,                           balance: "100000000000000000000" },
+  { privateKey: DEPLOYER_PRIVATE_KEY,           balance: "10000000000000000000000" },
+  { privateKey: LIQUIDITY_PROVIDER_PRIVATE_KEY, balance: "10000000000000000000000" },
+  { privateKey: VP_DEPLOYER_PRIVATE_KEY,        balance: "10000000000000000000000" },
+  { privateKey: ADMIN_PRIVATE_KEY,              balance: "10000000000000000000000" },
+  { privateKey: ARM,                            balance: "10000000000000000000000" },
+  { privateKey: CORE,                           balance: "10000000000000000000000" },
 ];
 // Default Hardhat network config
 let hardhatConfig = {

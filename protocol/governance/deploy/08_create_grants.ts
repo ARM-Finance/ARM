@@ -16,7 +16,7 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     await addGrants(startTime);
     log(`- Done creating grants`);
     // Change vesting owner
-    log(`- Changing vesting contract owner to admin address: ${admin}`);
+    log(`- Changing vesting contract owner to admin address: ${ admin }`);
     await execute('Vesting', { from: deployer }, 'changeOwner', admin);
 };
 

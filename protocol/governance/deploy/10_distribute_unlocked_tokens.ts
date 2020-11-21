@@ -9,12 +9,12 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     const { deployments, getNamedAccounts } = hre;
     const { log, execute } = deployments;
     const { deployer, liquidityProvider } = await getNamedAccounts();
-    const TARGET_TOKEN_LIQUIDITY = process.env.TARGET_TOKEN_LIQUIDITY;
+    const UNI_TOKEN_LIQUIDITY = process.env.UNI_TOKEN_LIQUIDITY;
 
     log(`10) Distribute Unlocked Tokens`);
     await distributeUnlockedTokens();
-    log(`- Transferring ${ TARGET_TOKEN_LIQUIDITY } tokens to liquidity provider address`);
-    await execute('ARM', { from: deployer }, 'transfer', liquidityProvider, TARGET_TOKEN_LIQUIDITY);
+    log(`- Transferring ${ UNI_TOKEN_LIQUIDITY } tokens to liquidity provider address`);
+    await execute('ARM', { from: deployer }, 'transfer', liquidityProvider, UNI_TOKEN_LIQUIDITY);
 };
 
 export const skip: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {

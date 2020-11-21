@@ -7,11 +7,11 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 
     const { deployments, getNamedAccounts, ethers } = hre;
     const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
-    const TARGET_TOKEN_LIQUIDITY = process.env.TARGET_TOKEN_LIQUIDITY;
-    const TARGET_ETH_LIQUIDITY = process.env.TARGET_ETH_LIQUIDITY;
+    const UNI_TOKEN_LIQUIDITY = process.env.UNI_TOKEN_LIQUIDITY;
+    const UNI_ETH_LIQUIDITY = process.env.UNI_ETH_LIQUIDITY;
 
     const { execute, read, log } = deployments;
-    const { deployer, admin } = await getNamedAccounts();
+    const { deployer, admin, liquidityProvider } = await getNamedAccounts();
                                         // @ts-ignore
     const deployerSigner = await ethers.getSigner(deployer);
 
@@ -81,14 +81,15 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     // Check that Uniswap pool has been seeded with target liquidity
     log(`[CHECK]: that Uniswap pool has been created...`);
     const { poolAddress, tokenLiquidity, ethLiquidity } = await getUniswapLiquidity();
-    if (tokenLiquidity.lt(TARGET_TOKEN_LIQUIDITY) || ethLiquidity.lt(TARGET_ETH_LIQUIDITY)) {
+    if (tokenLiquidity.lt(UNI_TOKEN_LIQUIDITY) || ethLiquidity.lt(UNI_ETH_LIQUIDITY)) {
         log(`[ISSUE]: Liquidity has not been added to Uniswap pool`);
         finalized = false;
     }
 
     // Check that liquidity provider has locked LP tokens
-    log(`[CHECK]: LP tokens are locked...`);
+    log(`[CHECK]: that LP tokens are still locked...`);
     const lockedBalance = await read('Vault', 'getLockedTokenBalance', poolAddress, admin);
+
     if (lockedBalance.eq(0)) {
         log(`[ISSUE]: Liquidity tokens have not been locked`);
         finalized = false;

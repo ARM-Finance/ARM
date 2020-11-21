@@ -78,9 +78,9 @@ contract Vesting {
     {
         require(msg.sender == owner, "Vest::addTokenGrant: not owner");
         require(address(votingPower) != address(0), "Vest::addTokenGrant: Set Voting Power contract first");
-        require(vestingCliffInDays <= 10*365, "Vest::addTokenGrant: cliff more than 10 years");
+        require(vestingCliffInDays <= 10 * 365, "Vest::addTokenGrant: cliff more than 10 years");
         require(vestingDurationInDays > 0, "Vest::addTokenGrant: duration must be > 0");
-        require(vestingDurationInDays <= 25*365, "Vest::addTokenGrant: duration more than 25 years");
+        require(vestingDurationInDays <= 25 * 365, "Vest::addTokenGrant: duration more than 25 years");
         require(vestingDurationInDays >= vestingCliffInDays, "Vest::addTokenGrant: duration < cliff");
         require(tokenGrants[recipient].amount == 0, "Vest::addTokenGrant: grant already exists for account");
         
@@ -109,7 +109,7 @@ contract Vesting {
      * @param recipient The address that has a grant
      * @return the grant
      */
-    function getTokenGrant(address recipient) public view returns(Grant memory){
+    function getTokenGrant(address recipient) public view returns(Grant memory) {
         return tokenGrants[recipient];
     }
 

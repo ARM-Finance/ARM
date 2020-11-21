@@ -91,7 +91,9 @@ export async function getUniswapLiquidity() {
 
     const uniRouter = new ethers.Contract(UNI_ROUTER_ADDRESS, UNI_ROUTER_ABI, deployerSigner);
     const UNI_FACTORY_ADDRESS = await uniRouter.factory();
+
     const WETH_ADDRESS = await uniRouter.WETH();
+
     const uniFactory = new ethers.Contract(UNI_FACTORY_ADDRESS, UNI_FACTORY_ABI, deployerSigner);
     const UNI_PAIR_ADDRESS = await uniFactory.getPair(WETH_ADDRESS, armToken.address);
 

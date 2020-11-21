@@ -13,7 +13,7 @@ import "./lib/SafeMath.sol";
 contract Vault {
     using SafeMath for uint256;
 
-    /// @notice Lock definition
+    /// @notice Vault Lock definition
     struct Lock {
         address token;
         address receiver;
@@ -63,7 +63,7 @@ contract Vault {
         external
     {
         require(lockDurationInDays > 0, "Vault::lockTokens: duration must be > 0");
-        require(lockDurationInDays <= 100 * 365, "Vault::lockTokens: duration more than 100 years");
+        require(lockDurationInDays <= 100 * 365, "Vault::lockTokens: lock window is more than 100 years");
         require(amount > 0, "Vault::lockTokens: amount not > 0");
 
         // Transfer the tokens under the control of the vault contract
@@ -113,7 +113,7 @@ contract Vault {
         external
     {
         require(lockDurationInDays > 0, "Vault::lockTokensWithPermit: duration must be > 0");
-        require(lockDurationInDays <= 100 * 365, "Vault::lockTokensWithPermit: duration more than 100 years");
+        require(lockDurationInDays <= 100 * 365, "Vault::lockTokensWithPermit: lock window is more than 100 years");
         require(amount > 0, "Vault::lockTokensWithPermit: amount not > 0");
 
         // Set approval using permit signature
@@ -143,7 +143,7 @@ contract Vault {
      * @param receiver The address that has locked balances
      * @return the lock ids
      */
-    function getActiveLocks(address receiver) public view returns(uint256[] memory){
+    function getActiveLocks(address receiver) public view returns(uint256[] memory) {
         return activeLocks[receiver];
     }
 
@@ -152,7 +152,7 @@ contract Vault {
      * @param lockId The ID for the locked balance
      * @return the lock
      */
-    function getTokenLock(uint256 lockId) public view returns(Lock memory){
+    function getTokenLock(uint256 lockId) public view returns(Lock memory) {
         return tokenLocks[lockId];
     }
 
@@ -161,9 +161,11 @@ contract Vault {
      * @param receiver The address that has locked balances
      * @return receiverLocks the lock ids
      */
-    function getAllActiveLocks(address receiver) public view returns(Lock[] memory receiverLocks){
+    function getAllActiveLocks(address receiver) public view returns(Lock[] memory receiverLocks) {
+
         uint256[] memory lockIds = getActiveLocks(receiver);
         receiverLocks = new Lock[](lockIds.length);
+
         for (uint256 i; i < lockIds.length; i++) {
             receiverLocks[i] = getTokenLock(lockIds[i]);
         }
@@ -175,12 +177,15 @@ contract Vault {
      * @param receiver The address that has locked balances
      * @return lockedBalance the total amount of `token` locked 
      */
-    function getLockedTokenBalance(address token, address receiver) public view returns(uint256 lockedBalance){
+    function getLockedTokenBalance(address token, address receiver) public view returns(uint256 lockedBalance) {
+
         Lock[] memory locks = getAllActiveLocks(receiver);
+
         for (uint256 i; i < locks.length; i++) {
-            if(locks[i].token == token){
-                if(block.timestamp <= locks[i].startTime) {
-                    lockedBalance.add(locks[i].amount);
+            if (locks[i].token == token) {
+                if (block.timestamp <= locks[i].startTime) {
+                    lockedBalance = lockedBalance.add(locks[i].amount);
+                    continue;
                 }
 
                 // Check if duration was reached
@@ -188,9 +193,9 @@ contract Vault {
                 uint256 elapsedDays = elapsedTime.div(SECONDS_PER_DAY);
 
                 if (elapsedDays < locks[i].duration) {
-                    lockedBalance.add(locks[i].amount);
+                    lockedBalance = lockedBalance.add(locks[i].amount);
                 } else {
-                    lockedBalance.add(locks[i].amount.sub(locks[i].amountClaimed));
+                    lockedBalance = lockedBalance.add(locks[i].amount.sub(locks[i].amountClaimed));
                 }
             }
         }
@@ -202,17 +207,19 @@ contract Vault {
      * @param receiver The address that has unlocked balances
      * @return unlockedBalance the total amount of `token` unlocked 
      */
-    function getUnlockedTokenBalance(address token, address receiver) public view returns(uint256 unlockedBalance){
+    function getUnlockedTokenBalance(address token, address receiver) public view returns(uint256 unlockedBalance) {
+
         Lock[] memory locks = getAllActiveLocks(receiver);
+
         for (uint256 i; i < locks.length; i++) {
-            if(locks[i].token == token){
-                if(block.timestamp > locks[i].startTime) {
+            if (locks[i].token == token) {
+                if (block.timestamp > locks[i].startTime) {
                     // Check if duration was reached
                     uint256 elapsedTime = block.timestamp.sub(locks[i].startTime);
                     uint256 elapsedDays = elapsedTime.div(SECONDS_PER_DAY);
 
                     if (elapsedDays >= locks[i].duration && locks[i].amountClaimed != locks[i].amount) {
-                        unlockedBalance.add(locks[i].amount).sub(locks[i].amountClaimed);
+                        unlockedBalance = unlockedBalance.add(locks[i].amount).sub(locks[i].amountClaimed);
                     }
                 }
             }
@@ -248,7 +255,7 @@ contract Vault {
     function getUnlockedBalance(uint256 lockId) public view returns (uint256) {
         Lock storage lock = tokenLocks[lockId];
 
-        // For locks created with a future start date, that hasn't been reached, return 0
+        // For locks created with a future start date, that hasn't been reached, return 0 (i.e. those tokens are considered under time lock)
         if (block.timestamp < lock.startTime) {
             return 0;
         }

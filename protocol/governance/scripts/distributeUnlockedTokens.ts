@@ -13,8 +13,6 @@ const PERMIT_TYPEHASH = ethers.utils.keccak256(
     ethers.utils.toUtf8Bytes('Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)')
 );
 
-let unlockedPercentage = 25;
-
 export async function distributeUnlockedTokens() {
 
     const grants = readGrantsFromFile();
@@ -63,8 +61,8 @@ export async function distributeUnlockedTokens() {
 
     const nonce = await deployments.read('ARM', 'nonces', deployer);
 
-    // Deadline for distributing tokens = now + 20 minutes
-    const deadline = Date.now() + 1200;
+    // Deadline for distributing tokens = now + 25 minutes
+    const deadline = Date.now() + 1500;
 
     const digest = ethers.utils.keccak256(
         ethers.utils.solidityPack(
@@ -96,7 +94,11 @@ export async function distributeUnlockedTokens() {
         'Multisend', 
         { from: deployer, gasLimit: 8000000 }, 
         'batchTransferWithPermit', 
-        totalNumUnlockedTokens, recipients, amounts, deadline, v, r, s
+        totalNumUnlockedTokens, 
+        recipients, 
+        amounts, 
+        deadline, 
+        v, r, s
     );
 
     if (result.status) {

@@ -17,7 +17,7 @@ export async function addGrants(startTime) {
             vestingCliffInDays = 0;
             vestingPercentage = 75;
         } else if (grant.class === "team") {
-            vestingDurationInDays = 540;
+            vestingDurationInDays = 360;
             vestingCliffInDays = 180;
             vestingPercentage = 100;
         } else {
@@ -30,7 +30,11 @@ export async function addGrants(startTime) {
             'Vesting',
             { from: owner, gasLimit: 6000000 },
             'addTokenGrant',
-            grant.recipient, startTime, grantAmount, vestingDurationInDays, vestingCliffInDays
+            grant.recipient, 
+            startTime, 
+            grantAmount, 
+            vestingDurationInDays, 
+            vestingCliffInDays
         );
         const newGrant = await deployments.read('Vesting', 'getTokenGrant', grant.recipient);
         log(`- New grant created for ${ grant.recipient }:`);

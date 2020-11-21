@@ -23,9 +23,9 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 
   if (deployResult.newlyDeployed) {
                         // @ts-ignore
-    log(`- ${deployResult.contractName} deployed at ${deployResult.address} using ${deployResult.receipt.gasUsed} gas`);
+    log(`- ${ deployResult.contractName } deployed at ${ deployResult.address } using ${ deployResult.receipt.gasUsed } gas`);
   } else {
-    log(`- Deployment skipped, using previous deployment at: ${deployResult.address}`);
+    log(`- Deployment skipped, using previous deployment at: ${ deployResult.address }`);
   }
 };
 

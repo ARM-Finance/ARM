@@ -1,7 +1,7 @@
 import { ethers } from "hardhat";
 import { expect } from "chai";
-import { tokenFixture } from "../fixtures";
 import { ecsign } from "ethereumjs-util";
+import { tokenFixture } from "../fixtures";
 
 const DEPLOYER_PRIVATE_KEY = process.env.DEPLOYER_PRIVATE_KEY;
 

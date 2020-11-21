@@ -1,5 +1,5 @@
-import { expect } from "chai";
 import { ethers } from "hardhat";
+import { expect } from "chai";
 import { ecsign } from "ethereumjs-util";
 import { governanceFixture } from "../fixtures";
 
@@ -13,7 +13,7 @@ const PERMIT_TYPEHASH = ethers.utils.keccak256(
     ethers.utils.toUtf8Bytes('Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)')
 );
 
-describe("Vesting", () => {
+describe("Vault", () => {
     let armToken;
     let vault;
     let deployer;
@@ -101,7 +101,7 @@ describe("Vesting", () => {
                 START_TIME, 
                 lockAmount, 
                 DURATION_IN_DAYS
-            )).to.be.revertedWith("revert Vault::lockTokens: duration more than 100 years");
+            )).to.be.revertedWith("revert Vault::lockTokens: lock window is more than 100 years");
 
             expect(await armToken.balanceOf(vault.address)).to.eq(totalLocked);
 
@@ -339,7 +339,7 @@ describe("Vesting", () => {
                 DURATION_IN_DAYS, 
                 deadline, 
                 v, r, s
-            )).to.be.revertedWith("revert Vault::lockTokensWithPermit: duration more than 100 years");
+            )).to.be.revertedWith("revert Vault::lockTokensWithPermit: lock window is more than 100 years");
             expect(await armToken.balanceOf(vault.address)).to.eq(totalLocked);
             const emptyLocks = await vault.getAllActiveLocks(bob.address);
             expect(emptyLocks.length).to.eq(0);

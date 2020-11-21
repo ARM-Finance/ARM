@@ -1,7 +1,10 @@
 ## `ARM`
 
-The governance token for ARM Finance
-ERC-20 with supply controls + add-ons to allow for offchain signing (see EIP-712, EIP-2612, and EIP-3009)
+The governance token for ARM
+
+ERC-20 with supply controls + add-ons to allow for offchain signing
+
+See EIP-712, EIP-2612, and EIP-3009 for details
 
 # Functions:
 
@@ -197,7 +200,7 @@ It is recommended to use increaseAllowance and decreaseAllowance instead
 
 - Whether or not the approval succeeded
 
-# Function `increaseAllowance(address spender, uint256 addedValue) → bool` {#ArchToken-increaseAllowance-address-uint256-}
+# Function `increaseAllowance(address spender, uint256 addedValue) → bool` {#ARM-increaseAllowance-address-uint256-}
 
 Increase the allowance by a given amount
 
@@ -211,7 +214,7 @@ Increase the allowance by a given amount
 
 - True if successful
 
-# Function `decreaseAllowance(address spender, uint256 subtractedValue) → bool` {#ArchToken-decreaseAllowance-address-uint256-}
+# Function `decreaseAllowance(address spender, uint256 subtractedValue) → bool` {#ARM-decreaseAllowance-address-uint256-}
 
 Decrease the allowance by a given amount
 
@@ -311,7 +314,7 @@ Transfer tokens with a signed authorization
 
 - `s`: Half of the ECDSA signature pair
 
-# Function `receiveWithAuthorization(address from, address to, uint256 value, uint256 validAfter, uint256 validBefore, bytes32 nonce, uint8 v, bytes32 r, bytes32 s)` {#ArchToken-receiveWithAuthorization-address-address-uint256-uint256-uint256-bytes32-uint8-bytes32-bytes32-}
+# Function `receiveWithAuthorization(address from, address to, uint256 value, uint256 validAfter, uint256 validBefore, bytes32 nonce, uint8 v, bytes32 r, bytes32 s)` {#ARM-receiveWithAuthorization-address-address-uint256-uint256-uint256-bytes32-uint8-bytes32-bytes32-}
 
 Receive a transfer with a signed authorization from the payer
 

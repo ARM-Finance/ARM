@@ -35,7 +35,6 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     const { deploy, log } = deployments;
     const namedAccounts = await getNamedAccounts();
     const { deployer } = namedAccounts;
-    // const { poolAddress } = await getUniswapLiquidity();
 
     log(`12) Vault`);
     // Deploy Vault contract
@@ -44,7 +43,6 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
         contract: "Vault",
         // @ts-ignore
         gas: 4455555,
-        // args: [poolAddress],
         skipIfAlreadyDeployed: true
     });
 
@@ -55,7 +53,7 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
         log(`- Deployment skipped, using previous deployment at: ${ deployResult.address }`);
     }
 
-    // Lock LP Tokens
+    // Lock all LP Tokens
     await lockLPTokens();
 };
 
