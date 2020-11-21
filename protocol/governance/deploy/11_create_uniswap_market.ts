@@ -108,6 +108,9 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 
     const UNI_ETH_LIQUIDITY = process.env.UNI_ETH_LIQUIDITY;
     const UNI_TOKEN_LIQUIDITY = process.env.UNI_TOKEN_LIQUIDITY;
+    const PROTOCOL_FUND_ADDRESS = process.env.PROTOCOL_FUND_ADDRESS;
+    const PROTOCOL_FUND_AMOUNT = process.env.PROTOCOL_FUND_AMOUNT;
+    const DAO_TREASURY_ADDRESS = process.env.DAO_TREASURY_ADDRESS;
 
     const uniRouter = new ethers.Contract(UNI_ROUTER_ADDRESS, UNI_ROUTER_ABI, lpSigner);
 
@@ -153,11 +156,21 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
        log(result);
    }
 
-   // Transfer remaining deployer balance to admin
-   log(`- Transferring remaining deployer ARM tokens to admin address: ${ admin }`);
+   // Transfer M&D budget to ARM fund (managed by admin)
+   log(`- Transferring marketing and development budget to protocol fund address: ${ PROTOCOL_FUND_ADDRESS }`);
+   let protocolBalance = await read('ARM', 'balanceOf', PROTOCOL_FUND_ADDRESS);
+   if (protocolBalance == 0) {
+     const decimals = await deployments.read('ARM', 'decimals');
+     const decimalMultiplier = ethers.BigNumber.from(10).pow(decimals);
+     const transferAmount = ethers.BigNumber.from(PROTOCOL_FUND_AMOUNT).mul(decimalMultiplier);
+     await execute('ARM', { from: deployer }, 'transfer', PROTOCOL_FUND_ADDRESS, transferAmount);
+   }
+
+   // Transfer remaining deployer balance to treasury (managed by ARM Finance DAO)
+   log(`- Transferring remaining deployer ARM tokens to treasury address: ${ DAO_TREASURY_ADDRESS }`);
    let deployerBalance = await read('ARM', 'balanceOf', deployer);
    if (deployerBalance > 0) {
-     await execute('ARM', { from: deployer }, 'transfer', admin, deployerBalance); // it shouldn't happen as we provided all minted tokens to Uniswap already (10k)
+     await execute('ARM', { from: deployer }, 'transfer', DAO_TREASURY_ADDRESS, deployerBalance); // it shouldn't happen as we provided all minted tokens to Uniswap already (10k)
    }
 };
 

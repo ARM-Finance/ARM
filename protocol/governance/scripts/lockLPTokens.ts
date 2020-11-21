@@ -5,6 +5,8 @@ import { getUniswapLiquidity } from "./getUniswapLiquidity";
 const { log } = deployments;
 
 const LIQUIDITY_PROVIDER_PRIVATE_KEY = process.env.LIQUIDITY_PROVIDER_PRIVATE_KEY;
+const DAO_TREASURY_ADDRESS = process.env.DAO_TREASURY_ADDRESS;
+
 const UNI_PAIR_ABI = [
     {
         "constant": true,
@@ -126,13 +128,13 @@ export async function lockLPTokens() {
         'Vault', 
         { from: liquidityProvider, gasLimit: 3333333 }, 
         'lockTokensWithPermit',
-        uniPool.address,    // address token (pool address?)
-        liquidityProvider,  // address locker
-        admin,              // address receiver
-        0,                  // uint256 startTime
-        lpBalance,          // uint256 amount
-        SIX_MONTHS_IN_DAYS, // uint16 lockDurationInDays
-        deadline,           // uint256 deadline
+        uniPool.address,      // address token (Uniswap pool address)
+        liquidityProvider,    // address locker
+        DAO_TREASURY_ADDRESS, // address receiver
+        0,                    // uint256 startTime
+        lpBalance,            // uint256 amount
+        SIX_MONTHS_IN_DAYS,   // uint16 lockDurationInDays
+        deadline,             // uint256 deadline
         v, r, s
     );
 

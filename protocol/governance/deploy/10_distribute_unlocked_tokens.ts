@@ -19,13 +19,18 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 
 export const skip: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 
-    const { deployments } = hre;
+    const { deployments, getNamedAccounts } = hre;
     const { log, read } = deployments;
-    const grants = readGrantsFromFile();
+    const { liquidityProvider } = await getNamedAccounts();
 
+    const DAO_TREASURY_ADDRESS = process.env.DAO_TREASURY_ADDRESS;
+
+    const grants = readGrantsFromFile();
     if (grants.length > 0) {
-        const firstGranteeTokenBalance = await read("ARM", "balanceOf", grants[0].recipient);
-        if (firstGranteeTokenBalance && firstGranteeTokenBalance.gt(0)) {
+        const treasuryTokenBalance = await read("ARM", "balanceOf", DAO_TREASURY_ADDRESS);
+        const liquidityProviderBalance = await read("ARM", "balanceOf", liquidityProvider);
+
+        if (treasuryTokenBalance.gt(0) || liquidityProviderBalance.gt(0)) {
             log(`10) Distribute Unlocked Tokens`);
             log(`- Skipping step, unlocked tokens already distributed`);
             return true;

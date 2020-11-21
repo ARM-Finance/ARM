@@ -9,6 +9,9 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
     const UNI_TOKEN_LIQUIDITY = process.env.UNI_TOKEN_LIQUIDITY;
     const UNI_ETH_LIQUIDITY = process.env.UNI_ETH_LIQUIDITY;
+    const PROTOCOL_FUND_ADDRESS = process.env.PROTOCOL_FUND_ADDRESS;
+    const PROTOCOL_FUND_AMOUNT = process.env.PROTOCOL_FUND_AMOUNT;
+    const DAO_TREASURY_ADDRESS = process.env.DAO_TREASURY_ADDRESS;
 
     const { execute, read, log } = deployments;
     const { deployer, admin, liquidityProvider } = await getNamedAccounts();
@@ -21,77 +24,91 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     let finalized = true;
   
     log(`13) Finalize`);
-    // Transfer remaining deployer ARM tokens to multisig
-    log(`[CHECK]: that remaining deployer ARM tokens were sent to admin address: ${ admin }`);
-    let deployerBalance = await read('ARM', 'balanceOf', deployer);
-    let adminBalance = await read('ARM', 'balanceOf', admin);
+    // Check that ARM protocol fund received its Marketing and Development budget
+    log(`- CHECK: marketing and development budget has been sent to protocol fund address: ${ PROTOCOL_FUND_ADDRESS }`);
+    let protocolBalance = await read('ARM', 'balanceOf', PROTOCOL_FUND_ADDRESS);
+    if (protocolBalance == 0) {
+      const decimals = await deployments.read('ARM', 'decimals');
+      const decimalMultiplier = ethers.BigNumber.from(10).pow(decimals);
+      const transferAmount = ethers.BigNumber.from(PROTOCOL_FUND_AMOUNT).mul(decimalMultiplier);
+      await execute('ARM', { from: deployer }, 'transfer', PROTOCOL_FUND_ADDRESS, transferAmount);
+      protocolBalance = await read('ARM', 'balanceOf', PROTOCOL_FUND_ADDRESS);
+      if (protocolBalance < transferAmount) {
+        log(`  - ISSUE: marketing and development budget not correct. Current balance: ${ protocolBalance.toString() }`);
+        finalized = false;
+      }
+    }
 
-    if (deployerBalance > 0) { // This is redundant actually, see deploy step #11-L#149-154
-      await execute('ARM', {from: deployer}, 'transfer', admin, deployerBalance);
+    // Transfer remaining deployer ARM tokens to treasury
+    log(`- CHECK: remaining deployer ARM tokens have been sent to the DAO treasury: ${ DAO_TREASURY_ADDRESS }`);
+    let deployerBalance = await read('ARM', 'balanceOf', deployer);
+    let treasuryBalance = await read('ARM ', 'balanceOf', DAO_TREASURY_ADDRESS);
+    if(deployerBalance > 0) {
+      await execute('ARM', { from: deployer }, 'transfer', admin, deployerBalance);
       deployerBalance = await read('ARM', 'balanceOf', deployer);
-      adminBalance = await read('ARM', 'balanceOf', admin);
+      treasuryBalance = await read('ARM', 'balanceOf', DAO_TREASURY_ADDRESS);
     }
 
     // Make sure deployer no longer has balance
     if (deployerBalance > 0) {
-      log(`[ISSUE]: deployer balance > 0. Current balance: ${ deployerBalance.toString() }`);
+      log(`    - ISSUE: deployer balance > 0. Current balance: ${ deployerBalance.toString() }`);
       finalized = false;
     }
 
-    // Make sure admin has balance
-    if (adminBalance.eq(0)) {
-      log(`[ISSUE]: admin balance == 0. Current balance: ${ adminBalance.toString() }`);
+    // Make sure treasury has balance
+    if (treasuryBalance.eq(0)) {
+      log(`    - ISSUE: treasury balance == 0. Current balance: ${ treasuryBalance.toString() }`);
       finalized = false;
     }
 
     // Check that admin is vesting owner
-    log(`[CHECK]: that vesting contract owner is admin: ${ admin }...`);
+    log(`- CHECK: that vesting contract owner is admin: ${ admin }...`);
     const vestingOwner = await read('Vesting', 'owner');
     if (vestingOwner !== admin) {
-      log(`[ISSUE]: Vesting contract owner is not admin: ${ admin }, current owner: ${ vestingOwner }`);
+      log(`    - ISSUE: Vesting contract owner is not admin: ${ admin }, current owner: ${ vestingOwner }`);
       finalized = false;
     }
 
     // Check that supply manager contract is token supply manager
-    log(`[CHECK]: that supply manager contract is token supply manager...`);
+    log(`- CHECK: that supply manager contract is token supply manager...`);
     const supplyManager = await deployments.get("SupplyManager");
     const tokenSupplyManager = await read('ARM', 'supplyManager');
     if (tokenSupplyManager !== supplyManager.address) {
-        log(`[ISSUE]: Token supply manager is not contract at ${ supplyManager.address }, current supply manager: ${ tokenSupplyManager }`);
+        log(`    - ISSUE: Token supply manager is not contract at ${ supplyManager.address }, current supply manager: ${ tokenSupplyManager }`);
         finalized = false;
     }
 
     // Check that voting power is initialized
-    log(`[CHECK]: that voting power is initialized...`);
+    log(`- CHECK: that voting power is initialized...`);
     const vpARM = await votingPower.armToken();
     const vpVesting = await votingPower.vestingContract();
     if (vpARM === ZERO_ADDRESS || vpVesting === ZERO_ADDRESS) {
-        log(`[ISSUE]: Voting power has not yet been initialized. Please initialize via prism proxy at ${ votingPower.address }`);
+        log(`    - ISSUE: Voting power has not yet been initialized. Please initialize via prism proxy at ${ votingPower.address }`);
         finalized = false;
     }
 
     // Check if multisig has accepted itself as voting power admin
-    log(`[CHECK]: that ${ admin } has accepted role of voting power admin...`);
+    log(`- CHECK: that ${ admin } has accepted role of voting power admin...`);
     const votingPowerAdmin = await read('VotingPowerPrism', 'proxyAdmin');
     if (votingPowerAdmin !== admin) {
-        log(`[ISSUE]: Multisig has not yet called 'acceptAdmin' on the voting power prism proxy at ${ votingPower.address }`);
+        log(`    - ISSUE: Multisig has not yet called 'acceptAdmin' on the voting power prism proxy at ${ votingPower.address }`);
         finalized = false;
     }
 
     // Check that Uniswap pool has been seeded with target liquidity
-    log(`[CHECK]: that Uniswap pool has been created...`);
+    log(`- CHECK: that Uniswap pool has been created...`);
     const { poolAddress, tokenLiquidity, ethLiquidity } = await getUniswapLiquidity();
     if (tokenLiquidity.lt(UNI_TOKEN_LIQUIDITY) || ethLiquidity.lt(UNI_ETH_LIQUIDITY)) {
-        log(`[ISSUE]: Liquidity has not been added to Uniswap pool`);
+        log(`    - ISSUE: Liquidity has not been added to Uniswap pool`);
         finalized = false;
     }
 
     // Check that liquidity provider has locked LP tokens
-    log(`[CHECK]: that LP tokens are still locked...`);
+    log(`- CHECK: that LP tokens are still locked...`);
     const lockedBalance = await read('Vault', 'getLockedTokenBalance', poolAddress, admin);
 
     if (lockedBalance.eq(0)) {
-        log(`[ISSUE]: Liquidity tokens have not been locked`);
+        log(`    - ISSUE: Liquidity tokens have not been locked`);
         finalized = false;
     }
 
