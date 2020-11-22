@@ -14,7 +14,7 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     const DAO_TREASURY_ADDRESS = process.env.DAO_TREASURY_ADDRESS;
 
     const { execute, read, log } = deployments;
-    const { deployer, admin, liquidityProvider } = await getNamedAccounts();
+    const { deployer, admin } = await getNamedAccounts();
                                         // @ts-ignore
     const deployerSigner = await ethers.getSigner(deployer);
 
@@ -42,9 +42,9 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     // Transfer remaining deployer ARM tokens to treasury
     log(`- CHECK: remaining deployer ARM tokens have been sent to the DAO treasury: ${ DAO_TREASURY_ADDRESS }`);
     let deployerBalance = await read('ARM', 'balanceOf', deployer);
-    let treasuryBalance = await read('ARM ', 'balanceOf', DAO_TREASURY_ADDRESS);
-    if(deployerBalance > 0) {
-      await execute('ARM', { from: deployer }, 'transfer', admin, deployerBalance);
+    let treasuryBalance = await read('ARM', 'balanceOf', DAO_TREASURY_ADDRESS);
+    if (deployerBalance > 0) {
+      await execute('ARM', { from: deployer }, 'transfer', DAO_TREASURY_ADDRESS, deployerBalance);
       deployerBalance = await read('ARM', 'balanceOf', deployer);
       treasuryBalance = await read('ARM', 'balanceOf', DAO_TREASURY_ADDRESS);
     }
@@ -105,7 +105,7 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
 
     // Check that liquidity provider has locked LP tokens
     log(`- CHECK: that LP tokens are still locked...`);
-    const lockedBalance = await read('Vault', 'getLockedTokenBalance', poolAddress, admin);
+    const lockedBalance = await read('Vault', 'getLockedTokenBalance', poolAddress, DAO_TREASURY_ADDRESS);
 
     if (lockedBalance.eq(0)) {
         log(`    - ISSUE: Liquidity tokens have not been locked`);
