@@ -178,24 +178,20 @@ contract Vault {
      * @return lockedBalance the total amount of `token` locked 
      */
     function getLockedTokenBalance(address token, address receiver) public view returns(uint256 lockedBalance) {
-
         Lock[] memory locks = getAllActiveLocks(receiver);
 
         for (uint256 i; i < locks.length; i++) {
             if (locks[i].token == token) {
                 if (block.timestamp <= locks[i].startTime) {
                     lockedBalance = lockedBalance.add(locks[i].amount);
-                    continue;
-                }
-
-                // Check if duration was reached
-                uint256 elapsedTime = block.timestamp.sub(locks[i].startTime);
-                uint256 elapsedDays = elapsedTime.div(SECONDS_PER_DAY);
-
-                if (elapsedDays < locks[i].duration) {
-                    lockedBalance = lockedBalance.add(locks[i].amount);
                 } else {
-                    lockedBalance = lockedBalance.add(locks[i].amount.sub(locks[i].amountClaimed));
+                    // Check if duration was reached
+                    uint256 elapsedTime = block.timestamp.sub(locks[i].startTime);
+                    uint256 elapsedDays = elapsedTime.div(SECONDS_PER_DAY);
+
+                    if (elapsedDays < locks[i].duration) {
+                        lockedBalance = lockedBalance.add(locks[i].amount);
+                    }
                 }
             }
         }
@@ -208,7 +204,6 @@ contract Vault {
      * @return unlockedBalance the total amount of `token` unlocked 
      */
     function getUnlockedTokenBalance(address token, address receiver) public view returns(uint256 unlockedBalance) {
-
         Lock[] memory locks = getAllActiveLocks(receiver);
 
         for (uint256 i; i < locks.length; i++) {
@@ -235,14 +230,18 @@ contract Vault {
     function getLockedBalance(uint256 lockId) public view returns (uint256) {
         Lock storage lock = tokenLocks[lockId];
 
+        if (block.timestamp <= lock.startTime) {
+            return lock.amount;
+        }
+
         // Check duration was reached
         uint256 elapsedTime = block.timestamp.sub(lock.startTime);
         uint256 elapsedDays = elapsedTime.div(SECONDS_PER_DAY);
         
         if (elapsedDays >= lock.duration) {
-            return lock.amount;
+            return 0;
         } else {
-            return lock.amount.sub(lock.amountClaimed);
+            return lock.amount;
         }
     }
 
