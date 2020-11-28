@@ -5,6 +5,7 @@ import "hardhat-deploy-ethers";
 import "hardhat-abi-exporter";
 import "hardhat-log-remover";
 import "hardhat-gas-reporter";
+// import "@nomiclabs/hardhat-solhint";
 // import "@tenderly/hardhat-tenderly";
 
 import { task, HardhatUserConfig } from "hardhat/config";

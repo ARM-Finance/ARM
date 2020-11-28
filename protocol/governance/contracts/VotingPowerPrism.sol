@@ -10,29 +10,28 @@ import "./lib/PrismProxy.sol";
  * All contracts that use voting power should reference this contract.
  */
 contract VotingPowerPrism is PrismProxy {
+	/**
+	 * @notice Construct a new Voting Power Prism Proxy
+	 * @dev Sets initial proxy admin to msg.sender
+	 */
+	constructor(address _admin) {
+		// Initialize storage
+		ProxyStorage storage s = proxyStorage();
+		// Set initial proxy admin
+		s.admin = _admin;
+	}
 
-    /**
-     * @notice Construct a new Voting Power Prism Proxy
-     * @dev Sets initial proxy admin to msg.sender
-     */
-    constructor(address _admin) {
-        // Initialize storage
-        ProxyStorage storage s = proxyStorage();
-        // Set initial proxy admin
-        s.admin = _admin;
-    }
+	/**
+	 * @notice Forwards call to implementation contract
+	 */
+	receive() external payable {
+		_forwardToImplementation();
+	}
 
-    /**
-     * @notice Forwards call to implementation contract
-     */
-    receive() external payable {
-        _forwardToImplementation();
-    }
-
-    /**
-     * @notice Forwards call to implementation contract
-     */
-    fallback() external payable {
-        _forwardToImplementation();
-    }
+	/**
+	 * @notice Forwards call to implementation contract
+	 */
+	fallback() external payable {
+		_forwardToImplementation();
+	}
 }

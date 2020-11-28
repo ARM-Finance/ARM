@@ -11,6 +11,8 @@
     "hardhat": "hardhat node --no-deploy --show-accounts",
     "accounts": "hardhat accounts",
     "compile": "hardhat compile",
+    "prettier": "prettier --write 'contracts/**/*.sol'",
+    "lint": "prettier --list-different 'contracts/**/*.sol'",
     "build:sol": "hardhat compile && sol2uml contracts",
     "script": "sh -c 'npx ./scripts/${0}.js'",
     "script:latest": "sh -c 'npx hardhat run ./scripts/${0}.js'",
@@ -47,6 +49,8 @@
   "dependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.0",
     "@nomiclabs/hardhat-waffle": "^2.0.0",
+    "@openzeppelin/contracts": "^3.3.0",
+    "@openzeppelin/contracts-ethereum-package": "^3.0.0",
     "ethereum-waffle": "^3.2.0",
     "ethereumjs-util": "^7.0.7",
     "ethers": "^5.0.19",
@@ -59,12 +63,15 @@
   },
   "devDependencies": {
     "@nomiclabs/hardhat-etherscan": "^2.0.1",
+    "@nomiclabs/hardhat-solhint": "^2.0.0",
     "@types/chai": "^4.2.14",
     "@types/mocha": "^8.0.4",
     "@types/node": "^14.14.7",
     "chai": "^4.2.0",
     "hardhat-abi-exporter": "^2.0.6",
     "hardhat-log-remover": "^2.0.0",
+    "prettier": "^1.19.1",
+    "prettier-plugin-solidity": "^1.0.0-beta.1",
     "sol2uml": "^1.1.18"
   }
 }
