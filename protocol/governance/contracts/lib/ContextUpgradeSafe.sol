@@ -14,27 +14,23 @@ import "@openzeppelin/contracts/proxy/Initializable.sol";
  * This contract is only required for intermediate, library-like contracts.
  */
 contract ContextUpgradeSafe is Initializable {
-    // Empty internal constructor, to prevent people from mistakenly deploying
-    // an instance of this contract, which should be used via inheritance.
+	// Empty internal constructor, to prevent people from mistakenly deploying
+	// an instance of this contract, which should be used via inheritance.
 
-    function __Context_init() internal initializer {
-        __Context_init_unchained();
-    }
+	function __Context_init() internal initializer {
+		__Context_init_unchained();
+	}
 
-    function __Context_init_unchained() internal initializer {
+	function __Context_init_unchained() internal initializer {}
 
+	function _msgSender() internal view virtual returns (address payable) {
+		return msg.sender;
+	}
 
-    }
+	function _msgData() internal view virtual returns (bytes memory) {
+		this; // silence state mutability warning without generating bytecode - see https://github.com/ethereum/solidity/issues/2691
+		return msg.data;
+	}
 
-
-    function _msgSender() internal view virtual returns (address payable) {
-        return msg.sender;
-    }
-
-    function _msgData() internal view virtual returns (bytes memory) {
-        this; // silence state mutability warning without generating bytecode - see https://github.com/ethereum/solidity/issues/2691
-        return msg.data;
-    }
-
-    uint256[50] private __gap;
+	uint256[50] private __gap;
 }
