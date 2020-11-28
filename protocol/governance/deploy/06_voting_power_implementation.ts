@@ -14,7 +14,7 @@ const func: DeployFunction = async (hre: HardhatRuntimeEnvironment) => {
     contract: "VotingPower",
     // @ts-ignore
     gas: 4000000,
-    skipIfAlreadyDeployed: true
+    skipIfAlreadyDeployed: false
   });
 
   if (deployResult.newlyDeployed) {

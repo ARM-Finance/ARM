@@ -11,9 +11,9 @@ export const tokenFixture = deployments.createFixture(async ({deployments, getNa
 
     const accounts = await ethers.getSigners();
     const deployer = accounts[0];
-    const admin = accounts[3];
-    const alice = accounts[4];
-    const bob = accounts[5];
+    const admin = accounts[4];
+    const alice = accounts[5];
+    const bob = accounts[6];
 
     const ARMFactory = await ethers.getContractFactory("ARM");
     const ARM = await ARMFactory.deploy(admin.address, deployer.address, firstSupplyChangeAllowed);
@@ -43,9 +43,9 @@ export const governanceFixture = deployments.createFixture(async ({deployments, 
     const accounts = await ethers.getSigners();
     const deployer = accounts[0];
     const liquidityProvider = accounts[1];
-    const admin = accounts[3];
-    const alice = accounts[4];
-    const bob = accounts[5];
+    const admin = accounts[4];
+    const alice = accounts[5];
+    const bob = accounts[6];
     
     const ARMFactory = await ethers.getContractFactory("ARM");
     const ARM = await ARMFactory.deploy(admin.address, deployer.address, firstSupplyChangeAllowed);

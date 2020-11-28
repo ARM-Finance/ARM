@@ -22,11 +22,15 @@ const LIQUIDITY_PROVIDER_ADDRESS = process.env.LIQUIDITY_PROVIDER_ADDRESS;
 const LIQUIDITY_PROVIDER_PRIVATE_KEY = process.env.LIQUIDITY_PROVIDER_PRIVATE_KEY;
 const ADMIN_ADDRESS = process.env.ADMIN_ADDRESS;
 const ADMIN_PRIVATE_KEY = process.env.ADMIN_PRIVATE_KEY;
+const STAKER_ADDRESS = process.env.STAKER_ADDRESS;
+const STAKER_PRIVATE_KEY = process.env.STAKER_PRIVATE_KEY;
+
 // const TENDERLY_USERNAME = process.env.TENDERLY_USERNAME
 // const TENDERLY_PROJECT_NAME = process.env.TENDERLY_PROJECT_NAME
 const REPORT_GAS = process.env.REPORT_GAS;
 const CMC_API_KEY = process.env.CMC_API_KEY;
 
+// Known players
 const ARM = '0xa37580e882586bc834912f332052c1dbb19bfb5252e4a6209a8c5514ca161f10';
 const CORE = '0xb169e3555400a60ddc713482b313731d7df8f8baeb0bbdeb2132a776d3d90d61';
 const accounts = [
@@ -34,9 +38,11 @@ const accounts = [
   { privateKey: LIQUIDITY_PROVIDER_PRIVATE_KEY, balance: "10000000000000000000000" },
   { privateKey: VP_DEPLOYER_PRIVATE_KEY,        balance: "10000000000000000000000" },
   { privateKey: ADMIN_PRIVATE_KEY,              balance: "10000000000000000000000" },
+  { privateKey: STAKER_PRIVATE_KEY,             balance: "10000000000000000000000" },
   { privateKey: ARM,                            balance: "10000000000000000000000" },
   { privateKey: CORE,                           balance: "10000000000000000000000" },
 ];
+
 // Default Hardhat network config
 let hardhatConfig = {
   hardfork: "muirGlacier",
@@ -100,6 +106,11 @@ if (VP_DEPLOYER_PRIVATE_KEY && VP_DEPLOYER_PRIVATE_KEY.length > 0) {
   mainnetConfig.accounts.push(VP_DEPLOYER_PRIVATE_KEY);
 }
 
+if (STAKER_PRIVATE_KEY && STAKER_PRIVATE_KEY.length > 0) {
+  rinkebyConfig.accounts.push(STAKER_PRIVATE_KEY);
+  mainnetConfig.accounts.push(STAKER_PRIVATE_KEY);
+}
+
 // Hardhat tasks
 // Documentation: https://hardhat.org/guides/create-task.html
 task("accounts", "Prints the list of accounts", async (args, hre) => {
@@ -137,8 +148,13 @@ const config: HardhatUserConfig = {
       1: VP_DEPLOYER_ADDRESS,
       4: VP_DEPLOYER_ADDRESS
     },
-    admin: {
+    staker: {
       default: 3,
+      1: STAKER_ADDRESS,
+      4: STAKER_ADDRESS
+    },
+    admin: {
+      default: 4,
       1: ADMIN_ADDRESS,
       4: ADMIN_ADDRESS
     }
