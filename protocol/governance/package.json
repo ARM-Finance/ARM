@@ -10,6 +10,7 @@
   "scripts": {
     "hardhat": "hardhat node --no-deploy --show-accounts",
     "accounts": "hardhat accounts",
+    "cleanse": "rimraf node_modules",
     "compile": "hardhat compile",
     "prettier": "prettier --write 'contracts/**/*.sol'",
     "lint": "prettier --list-different 'contracts/**/*.sol'",
@@ -72,6 +73,7 @@
     "hardhat-log-remover": "^2.0.0",
     "prettier": "^1.19.1",
     "prettier-plugin-solidity": "^1.0.0-beta.1",
+    "rimraf": "^2.7.1",
     "sol2uml": "^1.1.18"
   }
 }

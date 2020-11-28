@@ -1,5 +1,5 @@
 {
-  "name": "arm",
+  "name": "arm-finance",
   "version": "0.0.1",
   "private": true,
   "description": "The ARM Vault and ARM cryptocurrency monorepo",
@@ -7,7 +7,9 @@
   "workspaces": [
     "protocol/*"
   ],
-  "scripts": {},
+  "scripts": {
+    "cleanse": "rimraf node_modules"
+  },
   "keywords": [
     "ARM Finance",
     "ARM Vault",
@@ -26,6 +28,7 @@
     "dotenv": "^8.2.0",
     "husky": "^1.1.2",
     "lerna": "^3.4.3",
+    "rimraf": "^2.7.1",
     "ts-node": "^9.0.0",
     "typescript": "^4.1.2"
   },
