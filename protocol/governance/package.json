@@ -72,7 +72,7 @@
     "hardhat-log-remover": "^2.0.0",
     "prettier": "^1.19.1",
     "prettier-plugin-solidity": "^1.0.0-beta.1",
-    "rimraf": "^2.7.1",
+    "rimraf": "^3.0.2",
     "sol2uml": "^1.1.18"
   }
 }
